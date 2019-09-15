@@ -1,0 +1,8 @@
+{
+  "name": "rrhh",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

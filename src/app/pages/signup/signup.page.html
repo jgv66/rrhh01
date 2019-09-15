@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    
+    <ion-buttons slot="start">
+      <ion-button (click)="salir()">            
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>Primera vez en miPortal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="welcome-card">
+
+    <img src="assets/signup.png"/>
+
+    <ion-card-header style="padding: 10px 10px 10px 6px;">
+      <ion-card-title class="ion-text-center">Soy nuevo aqui...</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="padding-top: 1px; text-align: justify;">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Mi rut completo (con guión y dígito)</ion-label>
+          <ion-input autocomplete="off" type="text" name="miRut" [(ngModel)]="miRut"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Selecciona una clave (mìnimo 6 caracteres)</ion-label>
+          <ion-input autocomplete="off" type="password" name="miClave1" [(ngModel)]="miClave1"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Repetir clave para asegurar que es la misma</ion-label>
+          <ion-input autocomplete="off" type="password" name="miClave2" [(ngModel)]="miClave2"></ion-input>
+        </ion-item>
+          
+      </ion-list>
+      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+
+      <ion-button expand="block" share="round" color="mango" (click)="registrar()" style="padding-top: 10px;" >Registrar estos datos en miPortal</ion-button>
+
+    </ion-card-content>
+
+  </ion-card>  
+
+</ion-content>

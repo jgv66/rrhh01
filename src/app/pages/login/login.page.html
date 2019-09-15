@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="mango">
+    <ion-buttons slot="start">
+      <ion-button (click)="menuToggle()"><ion-icon slot="icon-only" name="menu"></ion-icon></ion-button>
+      <!-- <ion-menu-button autoHide="false"></ion-menu-button> -->
+    </ion-buttons>    
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+
+  <ion-card class="welcome-card">
+
+    <img src="assets/login.png" />
+
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Ingresar a miPortal</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="padding-top: 5px; text-align: justify;">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Mi rut completo (con guión y dígito)</ion-label>
+          <ion-input autocomplete="off" type="text" name="miRut" [(ngModel)]="miRut"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Mi clave</ion-label>
+          <ion-input autocomplete="off" type="password" name="miClave" [(ngModel)]="miClave"></ion-input>
+        </ion-item>
+
+        <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="login()">Ingresar</ion-button>
+
+      </ion-list>
+      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>        
+
+      <ion-row style="font-size: 70%;margin-top: 10px;">
+        <ion-col size="7">
+          <ion-button (click)="iforgot()" fill="clear" size="small" disabled="true">No recuerdo mi clave</ion-button>
+        </ion-col>
+        <ion-col size="5">
+          <ion-button (click)="signup()" fill="clear" size="small">Es mi primera vez</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+  </ion-card>  
+
+</ion-content>
