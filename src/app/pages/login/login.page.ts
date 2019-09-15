@@ -36,6 +36,7 @@ export class LoginPage implements OnInit {
   }
 
   menuToggle() {
+    console.log(111111);
     this.menuCtrl.toggle();
   }
 
