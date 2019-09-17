@@ -4,18 +4,19 @@
         <ion-button (click)="menuToggle()"><ion-icon slot="icon-only" name="menu"></ion-icon></ion-button>
       </ion-buttons>    
     <ion-title class="ion-text-center">Inicio</ion-title>
-    <!-- <ion-buttons slot="end">
-      <ion-button (click)="ingresar()">
-        <ion-icon slot="icon-only" name="md-key"></ion-icon>
-      </ion-button>
-    </ion-buttons>     -->
+    <ion-buttons slot="start">
+      <ion-button (click)="add_to_home($event)"><ion-icon slot="icon-only" name="menu" *ngIf=" showInstaller "  ></ion-icon></ion-button>
+    </ion-buttons>    
+
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
     <ion-card class="welcome-card">
-      <img src="/assets/rrhh1.jpg" alt="" />
+      <img src="assets/rrhh1.jpg" alt="" />
+      <!-- <ion-img src="assets/login.png"></ion-img> -->
       <ion-card-header>
         <ion-card-title>Bienvenido a miPortal</ion-card-title>
       </ion-card-header>

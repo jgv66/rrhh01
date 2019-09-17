@@ -36,7 +36,6 @@ export class LoginPage implements OnInit {
   }
 
   menuToggle() {
-    console.log(111111);
     this.menuCtrl.toggle();
   }
 
@@ -48,24 +47,21 @@ export class LoginPage implements OnInit {
   revisaRespuesta( dev ) {
     this.cargando = false;
     //
-    // console.log(dev);
     if ( dev.datos[0].error ) {
       this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
     } else if ( dev.datos[0].resultado ) {
-      // asigana el dato obtenido
+      //
       this.datos.ficha  = dev.datos[0].ficha;
       this.datos.nombre = dev.datos[0].nombre;
-      // se guarda para futuros accesos
+      //
       this.datos.guardarDato( 'ks_usuario', this.miRut );
       //
       this.router.navigate(['/home']);
-      this.funciones.muestraySale( this.funciones.textoSaludo() + this.datos.nombre, 1.5, 'bottom' );
+      this.funciones.muestraySale( this.funciones.textoSaludo() + this.datos.nombre, 1, 'bottom' );
       //
     }
   }
 
-  iforgot() {}
-  
   async signup() {
     const modal = await this.modalCtrl.create({
       component: SignupPage
@@ -75,5 +71,7 @@ export class LoginPage implements OnInit {
     const { data } = await modal.onWillDismiss();
     // console.log( data );
   }
+
+  iforgot() {}
 
 }

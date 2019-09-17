@@ -1,72 +1,69 @@
 
-  <ion-split-pane>
+  <ion-menu side="start" contentId="menu1">
 
-    <ion-menu side="start" contentId="menu1">
+    <ion-header>
+      <ion-toolbar color="mango">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+  
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="true">
 
-      <ion-header>
-        <ion-toolbar color="mango">
-          <ion-title>Menu</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    
-      <ion-content>
-        <ion-list>
-          <ion-menu-toggle auto-hide="true">
+          <div>
+            <ion-list lines="none" class="lista">
+              <ion-list-header>
+                Ingresar / Salir
+              </ion-list-header>
+              <ion-item style="padding-left: 15px; " (click)="login()" *ngIf=" onoff() " ><ion-icon slot="start" name="md-key"></ion-icon>Ingresar a miPortal</ion-item>
+              <ion-item style="padding-left: 15px; " (click)="logout()"  *ngIf=" !onoff() " ><ion-icon slot="start" name="md-exit"></ion-icon>Cerrar sesión</ion-item>
+            </ion-list>              
+          </div>
+  
+          <div>
+            <ion-list lines="none" class="lista" >
+              <ion-list-header>
+                Mis Datos
+              </ion-list-header>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()" routerLink="/mificha"><ion-icon slot="start" name="contact"></ion-icon>Mi ficha</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="paper"  ></ion-icon>Mis liquidaciones</ion-item>
+            </ion-list>              
+          </div>
 
-            <div>
-              <ion-list lines="none" class="lista">
-                <ion-list-header>
-                  Ingresar / Salir
-                </ion-list-header>
-                <ion-item style="padding-left: 15px; " (click)="login()" *ngIf=" onoff() " ><ion-icon slot="start" name="md-key"></ion-icon>Ingresar a miPortal</ion-item>
-                <ion-item style="padding-left: 15px; " (click)="logout()"  *ngIf=" !onoff() " ><ion-icon slot="start" name="md-exit"></ion-icon>Cerrar sesión</ion-item>
-              </ion-list>              
-            </div>
-    
-            <div>
-              <ion-list lines="none" class="lista" >
-                <ion-list-header>
-                  Mis Datos
-                </ion-list-header>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()" routerLink="/mificha"><ion-icon slot="start" name="contact"></ion-icon>Mi ficha</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="paper"  ></ion-icon>Mis liquidaciones</ion-item>
-              </ion-list>              
-            </div>
+          <div>
+            <ion-list lines="none" class="lista">
+              <ion-list-header>
+                Mis Solicitudes
+              </ion-list-header>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()" routerLink="/anticipo"><ion-icon slot="start" name="cash"       ></ion-icon>Anticipos</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="ice-cream"  ></ion-icon>Vacaciones</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="medkit"     ></ion-icon>Licencias</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="folder-open"></ion-icon>Certificados</ion-item>
+            </ion-list>              
+          </div>
 
-            <div>
-              <ion-list lines="none" class="lista">
-                <ion-list-header>
-                  Mis Solicitudes
-                </ion-list-header>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="cash"       ></ion-icon>Anticipos</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="ice-cream"  ></ion-icon>Vacaciones</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="medkit"     ></ion-icon>Licencias</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="folder-open"></ion-icon>Certificados</ion-item>
-              </ion-list>              
-            </div>
+          <div>
+            <ion-list lines="none" class="lista">
+              <ion-list-header>
+                Me Cambié  
+              </ion-list-header>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="pin"        ></ion-icon>De domicilio</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="call"       ></ion-icon>De Nro. Telefónico</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="trending-up"></ion-icon>De Afp</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="nuclear"    ></ion-icon>De Isapre</ion-item>
+            </ion-list>              
+          </div>
 
-            <div>
-              <ion-list lines="none" class="lista">
-                <ion-list-header>
-                  Me Cambié  
-                </ion-list-header>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="pin"        ></ion-icon>De domicilio</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="call"       ></ion-icon>De Nro. Telefónico</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="trending-up"></ion-icon>De Afp</ion-item>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="nuclear"    ></ion-icon>De Isapre</ion-item>
-              </ion-list>              
-            </div>
+          <div>
+            <ion-list lines="none" class="lista">
+              <ion-list-header>Comunicaciones</ion-list-header>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()" routerLink="/miscom"><ion-icon slot="start" name="mail"></ion-icon>Estado de mis Solicitudes</ion-item>
+            </ion-list>              
+          </div>
 
-            <div>
-              <ion-list lines="none" class="lista">
-                <ion-list-header>Comunicaciones</ion-list-header>
-                <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="mail"></ion-icon>Estado de mis Solicitudes</ion-item>
-              </ion-list>              
-            </div>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-
-  </ion-split-pane>     
