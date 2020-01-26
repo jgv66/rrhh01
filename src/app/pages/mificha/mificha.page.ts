@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DatosService } from '../../services/datos.service';
 import { FuncionesService } from '../../services/funciones.service';
 
@@ -13,9 +14,15 @@ export class MifichaPage implements OnInit {
   cargando = false;
 
   constructor( private datos: DatosService,
-               private funciones: FuncionesService ) { }
+               private funciones: FuncionesService,
+               private router: Router ) { }
 
   ngOnInit() {
+    if ( this.datos.ficha === undefined ) {
+      this.router.navigate(['/home']);
+    }
+  }
+  ionViewWillEnter() {
     this.cargando = true;
     this.datos.servicioWEB( '/leerFicha', { ficha: this.datos.ficha } )
         .subscribe( dev => this.revisaRespuesta( dev ) );

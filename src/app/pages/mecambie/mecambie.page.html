@@ -1,0 +1,168 @@
+<ion-header>
+  <ion-toolbar color="mango">
+    <ion-buttons slot="start">
+      <ion-button (click)="menuToggle()"><ion-icon slot="icon-only" name="menu"></ion-icon></ion-button>
+      <!-- <ion-menu-button autoHide="false"></ion-menu-button> -->
+    </ion-buttons>    
+    <ion-title>Actualizar Información</ion-title>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+
+  <ion-card class="ion-no-padding">
+
+    <ion-img src="assets/images/mecambie.jpg"></ion-img>
+
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Cambiar mi {{ this.caso }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="padding-top: 5px; text-align: justify;" *ngIf=" caso==='domicilio' ">
+
+      <h1>Datos actuales</h1>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="4">Dirección</ion-col>
+          <ion-col size="8">{{ ficha?.direccion }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">Comuna</ion-col>
+          <ion-col size="8">{{ ficha?.nomcomuna }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">Ciudad</ion-col>
+          <ion-col size="8">{{ ficha?.nomciudad }}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h1 style='padding-top: 25px;'>Nueva dirección</h1>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label>Dirección</ion-label>
+          <ion-textarea rows="2" value="datoNuevo1" [(ngModel)]="datoNuevo1" placeholder="Escriba la nueva direccion aquí..."></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf=" regiones ">
+          <ion-label position="stacked">Región</ion-label>
+          <ion-select  (ionChange)="lasCiudades()" value="region" [(ngModel)]="region" interface="alert" placeholder="Seleccione una región...">
+          <ion-select-option *ngFor="let reg of regiones" [value]="reg.cod">{{ reg.nom }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf=" region ">
+          <ion-label position="stacked">Ciudad</ion-label>
+          <ion-select  (ionChange)="lasComunas()" value="datoNuevo2" [(ngModel)]="datoNuevo2" interface="alert" placeholder="Seleccione una ciudad...">
+          <ion-select-option *ngFor="let ciu of ciudades" [value]="ciu.nom">{{ ciu.nom }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf=" datoNuevo2 ">
+          <ion-label position="stacked">Comuna</ion-label>
+          <ion-select value="datoNuevo3" [(ngModel)]="datoNuevo3" interface="alert" placeholder="Seleccione una comuna...">
+          <ion-select-option *ngFor="let com of comunas" [value]="com.nom">{{ com.nom }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+      <ion-row style="font-size: 70%;margin-top: 10px;" *ngIf=" region && datoNuevo2 && datoNuevo3 && datoNuevo1 ">
+        <ion-col size="12">
+          <ion-button (click)="solicitarCambio()" color="mango" expand="block" size="small">Enviar mi solicitud de cambio</ion-button>
+        </ion-col>
+      </ion-row>
+        
+    </ion-card-content>
+
+    <ion-card-content style="padding-top: 5px; text-align: justify;" *ngIf=" caso==='numero' ">
+
+      <h1>Datos actuales</h1>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="5">Numero actual</ion-col>
+          <ion-col size="7">{{ ficha?.telefono1 }}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h1 style='padding-top: 25px;'>Nuevos datos</h1>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label>Nuevo número : </ion-label>
+          <ion-input type="tel" value="datoNuevo1" [(ngModel)]="datoNuevo1" ></ion-input>
+        </ion-item>
+
+      </ion-list>
+        
+      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+      <ion-row style="font-size: 70%;margin-top: 10px;" *ngIf=" datoNuevo1 ">
+        <ion-col size="12">
+          <ion-button (click)="solicitarCambio()" color="mango" expand="block" size="small">Enviar mi solicitud de cambio</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content style="padding-top: 5px; text-align: justify;" *ngIf=" caso==='afp' ">
+
+      <h1>Datos actuales</h1>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="5">AFP actual : </ion-col>
+          <ion-col size="7">{{ ficha?.afp }}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h1 style='padding-top: 25px;'>Nuevos datos</h1>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked">Nueva AFP</ion-label>
+          <ion-select value="datoNuevo1" [(ngModel)]="datoNuevo1" interface="alert" placeholder="Seleccione una AFP...">
+          <ion-select-option *ngFor="let afp of afps" [value]="afp.nom">{{ afp.nom }}</ion-select-option>
+          </ion-select>
+      </ion-item>
+
+      </ion-list>
+        
+      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+      <ion-row style="font-size: 70%;margin-top: 10px;" *ngIf=" datoNuevo1 ">
+        <ion-col size="12">
+          <ion-button (click)="solicitarCambio()" color="mango" expand="block" size="small">Enviar mi solicitud de cambio</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content style="padding-top: 5px; text-align: justify;" *ngIf=" caso==='isapre' ">
+
+      <h1>Datos actuales</h1>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="5">ISAPRE actual : </ion-col>
+          <ion-col size="7">{{ ficha?.isapre }}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h1 style='padding-top: 25px;'>Nuevos datos</h1>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked">Nueva ISAPRE</ion-label>
+          <ion-select value="datoNuevo1" [(ngModel)]="datoNuevo1" interface="alert" placeholder="Seleccione una ISAPRE...">
+          <ion-select-option *ngFor="let isa of isapres" [value]="isa.nom">{{ isa.nom }}</ion-select-option>
+          </ion-select>
+      </ion-item>
+
+      </ion-list>
+        
+      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+      <ion-row style="font-size: 70%;margin-top: 10px;" *ngIf=" datoNuevo1 ">
+        <ion-col size="12">
+          <ion-button (click)="solicitarCambio()" color="mango" expand="block" size="small">Enviar mi solicitud de cambio</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+  </ion-card>      
+
+</ion-content>

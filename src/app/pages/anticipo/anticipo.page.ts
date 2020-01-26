@@ -19,6 +19,9 @@ export class AnticipoPage implements OnInit {
                private router: Router ) { }
 
   ngOnInit() {
+    if ( this.datos.ficha === undefined ) {
+      this.router.navigate(['/home']);
+    }
   }
 
   enviar() {
@@ -48,7 +51,6 @@ export class AnticipoPage implements OnInit {
     } else {
       this.funciones.msgAlert( 'ATENCION', dev.mensaje, 'REINTENTE LUEGO' );
     }
-    // console.log(dev);
   }
 
 }

@@ -16,7 +16,7 @@ export class SignupPage implements OnInit {
   miClave2 = '';
   cargando = false;
 
-  constructor( private datos: DatosService,
+  constructor( public datos: DatosService,
                private modalCtrl: ModalController,
                private funciones: FuncionesService) { }
 
@@ -37,7 +37,6 @@ export class SignupPage implements OnInit {
     }
 
   }
-
   revisaRespuesta( dev ) {
     this.cargando = false;
     if ( dev.datos[0].error ) {

@@ -10,10 +10,20 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Tire para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Refrescando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-card *ngFor="let mensaje of mensajes" >
 
     <ion-card-header>
-      <ion-card-subtitle class="ion-text-capitalize" [color]=" mensaje.cerrado ? 'danger' : 'primary' ">{{ mensaje.cerrado ? 'Cerrado' : 'Aun abierto' }}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf=" mensaje.cerrado  " color="danger" >Cerrado el día {{ mensaje.fechacierre | date }}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf=" !mensaje.cerrado " color="primary">Aun abierto</ion-card-subtitle>
       <ion-card-title>{{ mensaje.tipo }}</ion-card-title>
     </ion-card-header>
   
@@ -31,17 +41,17 @@
           <ion-icon name="ios-text" slot="start"></ion-icon>
           <ion-label class="ion-text-wrap">{{ mensaje.dato }}</ion-label>
         </ion-item>
-
         <ion-item>
           <ion-icon name="calendar" slot="start"></ion-icon>
           <ion-label>Solicitud : {{ mensaje.fecha | date }}</ion-label>
         </ion-item>
-  
-        
-        <ion-item *ngIf=" mensaje.fechacierre ">
-          <ion-icon name="calendar" slot="start"></ion-icon>
-          <ion-label>Cierre : {{ mensaje.fechacierre | date }}</ion-label>
-        </ion-item>
+
+        <ion-row *ngIf=" !mensaje.cerrado ">
+          <ion-col offset="6" size="6">
+            <ion-button color="mango" fill="solid" expand="block" size="small" (click)="cerrar( mensaje.id )">Cerrar mensaje</ion-button>
+          </ion-col>
+        </ion-row>
+
       </ion-list>
 
     </ion-card-content>      

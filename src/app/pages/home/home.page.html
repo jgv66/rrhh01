@@ -1,29 +1,46 @@
 <ion-header>
-  <ion-toolbar color="mango">
-      <ion-buttons slot="start">
-        <ion-button (click)="menuToggle()"><ion-icon slot="icon-only" name="menu"></ion-icon></ion-button>
-      </ion-buttons>    
-    <ion-title class="ion-text-center">Inicio</ion-title>
-    <ion-buttons slot="start">
-      <ion-button (click)="add_to_home($event)"><ion-icon slot="icon-only" name="menu" *ngIf=" showInstaller "  ></ion-icon></ion-button>
-    </ion-buttons>    
-
-
-  </ion-toolbar>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start" *ngIf=" datos.logeado ">
+            <ion-button (click)="menuToggle()">
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">Inicio</ion-title>
+        <!--  -->
+        <ion-buttons slot="end">
+            <ion-button (click)="addToHomeScreen()">
+                <ion-icon slot="icon-only" name="menu" *ngIf=" showInstaller "></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <!--  -->
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <ion-card class="welcome-card">
-      <img src="assets/rrhh1.jpg" alt="" />
-      <!-- <ion-img src="assets/login.png"></ion-img> -->
-      <ion-card-header>
-        <ion-card-title>Bienvenido a miPortal</ion-card-title>
-      </ion-card-header>
-      <ion-card-content style="padding-top: 5px; text-align: justify;">
-        <p >Esta aplicación te ayudará a simplificar la comunicación con el departamento de Recursos Humanos (RRHH) de tu empresa.</p>
-        <p>Entregándote herramientas de información y ágil comunicación con tus compañeros, acelerando de esta forma trámites y evitando reuniones y pérdidas de tiempo innecesariasde a cualquier hora del día laboral o festivo.</p>
-      </ion-card-content>
-    </ion-card>  
+    <ion-card class="welcome-card" style="margin-top: 10px;">
+        <!-- <ion-img src="assets/images/rrhh1.jpg"></ion-img> -->
+        <ion-img src="assets/images/logo-rrhh.jpg" alt="imagen inicial"></ion-img>
+        <ion-card-header style="padding-top: 10px;padding-bottom: 10px;">
+            <ion-card-title class="ion-text-center">Bienvenido a miPortal</ion-card-title>
+        </ion-card-header>
+        <ion-card-content style="padding-top: 5px; text-align: justify; font-size: 75% !important; padding-bottom: 5px;">
+            <p>Esta aplicación te ayudará a simplificar la comunicación con el departamento de Recursos Humanos (RRHH) de tu empresa.</p>
+            <p>Entregándote herramientas de información y comunicación, evitando reuniones y pérdidas de tiempo innecesarias, acelerando de esta forma trámites a cualquier hora del día laboral o festivo.</p>
+            <ion-row style="font-size: 70%;margin-top: 10px;">
+                <ion-col size="12" *ngIf=" !datos.logeado ">
+                    <ion-button (click)="ingresar()" color="mango" expand="block" size="small">Ingresar a miPortal</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+        <ion-img style="margin-bottom: 25px; margin-top: -10px;" src="assets/images/logo-kinetik.jpg" alt="mi_logo"></ion-img>
+    </ion-card>
+
+    <button type="button" class="ad2hs-prompt" *ngIf="showButton" (click)="addToHomeScreen()">Instalar aplicación Web</button>
+    <div class="ios-prompt" *ngIf="showIosInstall" (click)="showIosInstall = false;">
+        <span style="color: rgb(187, 187, 187); float: right; margin-top: -10px; margin-right: -7px;">&times;</span>
+        <img src="assets/imgs/add2home.svg" style="float: left; height: 80px; width: auto; margin-top: -4px; margin-right: 1rem;">
+        <p style="margin-top: 0.4rem; line-height: 1.8rem;">Para instalar esta aplicación Web en tu iPhone/iPad presiona <img src="assets/imgs/share.svg" style="display: inline-block; margin-top: 4px; margin-bottom: -4px; height: 20px; width: auto;"> y luego Agregar a Inicio.</p>
+    </div>
 
 </ion-content>

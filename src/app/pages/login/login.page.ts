@@ -18,25 +18,34 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router,
               private menuCtrl: MenuController,
-              private datos: DatosService,
+              public datos: DatosService,
               private funciones: FuncionesService,
               private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.datos.leerDato( 'ks_usuario' )
         .then( dato => {
-          if ( dato ) {
-            this.miRut   = dato;
-            this.miClave = '';
-          } else {
+          try {
+            if ( dato ) {
+              this.miRut   = dato;
+              this.miClave = '';
+            } else {
+              this.miRut = '';
+              this.miClave = '';
+            }
+          } catch (error) {
             this.miRut = '';
             this.miClave = '';
-          }
+        }
         });
   }
 
   menuToggle() {
     this.menuCtrl.toggle();
+  }
+
+  volver() {
+    this.router.navigate(['/home']);
   }
 
   login() {
@@ -56,8 +65,9 @@ export class LoginPage implements OnInit {
       //
       this.datos.guardarDato( 'ks_usuario', this.miRut );
       //
+      this.datos.logeado = true;
       this.router.navigate(['/home']);
-      this.funciones.muestraySale( this.funciones.textoSaludo() + this.datos.nombre, 1, 'bottom' );
+      this.funciones.muestraySale( this.funciones.textoSaludo() + this.datos.nombre, 1, 'middle' );
       //
     }
   }

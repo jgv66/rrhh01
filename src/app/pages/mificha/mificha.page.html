@@ -1,90 +1,149 @@
 <ion-header>
-  <ion-toolbar color="mango">
-    <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
-    </ion-buttons>      
-    <ion-title>Mi Ficha</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Mi Ficha</ion-title>
+    </ion-toolbar>
 </ion-header>
-<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>        
+<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
-<ion-content  class="animated fadeIn">
+<ion-content class="animated fadeIn">
 
-  <ion-card class="welcome-card" *ngIf=" ficha ">
+    <ion-card class="welcome-card" *ngIf=" ficha ">
 
-    <img src="assets/mificha.png" />
+        <ion-img src="assets/images/mificha.jpg"></ion-img>
 
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">Datos personales</ion-card-title>
-    </ion-card-header>
+        <ion-card-header style="padding-top: 10px; padding-bottom: 10px;">
+            <ion-card-title class="ion-text-center">Datos personales</ion-card-title>
+        </ion-card-header>
 
-    <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
+        <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
 
-      <ion-grid class="grid-productos">
+            <ion-grid class="grid-productos">
 
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="barcode"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['codigo'] }}</b></p></ion-col>
-        </ion-row>
-  
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="card"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['rut'] }}</b></p></ion-col>
-        </ion-row>
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="barcode"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['codigo'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="contact"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['nombre'] + ' ' + ficha['appaterno'] + ' ' + ficha['apmaterno'] }}</b></p></ion-col>
-        </ion-row>
-                      
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="pin"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['direccion'] }} - {{ ficha['nomcomuna'] }} - {{ ficha['nomciudad'] }}</b></p></ion-col>
-        </ion-row>
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="card"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['rut'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="call"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['telefono1'] }} - {{ ficha['telefono2'] }}</b></p></ion-col>
-        </ion-row>
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="contact"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['nombre'] + ' ' + ficha['appaterno'] + ' ' + ficha['apmaterno'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="mail"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['email'] }}</b></p></ion-col>
-        </ion-row>
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="pin"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['direccion'] }} - {{ ficha['nomcomuna'] }} - {{ ficha['nomciudad'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-  
-      </ion-grid>
-      
-    </ion-card-content>
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="heart"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['estadocivil'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-  </ion-card>  
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="call"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['telefono1'] }} - {{ ficha['telefono2'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-  <ion-card class="welcome-card" *ngIf=" ficha ">
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="mail"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['email'] }}</b></p>
+                    </ion-col>
+                </ion-row>
 
-    <img src="assets/mificha2.png" />
 
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">Datos Laborales</ion-card-title>
-    </ion-card-header>
+            </ion-grid>
 
-    <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
+        </ion-card-content>
 
-      <ion-grid class="grid-productos">
+    </ion-card>
 
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="contacts"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['jefedirecto'] }}</b></p></ion-col>
-        </ion-row>
-  
-        <ion-row>
-          <ion-col size="1"><ion-icon color="dark" name="calendar"></ion-icon></ion-col> 
-          <ion-col class="ion-text-left"><p><b>{{ ficha['fechacontrato'] }}</b></p></ion-col>
-        </ion-row>
+    <ion-card class="welcome-card" *ngIf=" ficha ">
 
-      </ion-grid>
-      
-    </ion-card-content>
+        <ion-img src="assets/images/mificha2.jpg"></ion-img>
 
-  </ion-card>  
-  
+        <ion-card-header style="padding-top: 10px; padding-bottom: 10px;">
+            <ion-card-title class="ion-text-center">Datos Laborales</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
+
+            <ion-grid class="grid-productos">
+
+                <ion-row *ngIf=" ficha['jefedirecto'] !== '' ">
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="contacts"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>Jefe directo : {{ ficha['jefedirecto'] }}</b></p>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="calendar"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>Inicio Contrato : {{ ficha['fechacontrato'] | date: 'dd/MM/yyyy' }}</b></p>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row *ngIf=" ficha['numCargasSimp']+ficha['numCargasInval']+ficha['numCargasMater']>0 ">
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="people"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left" size="3">
+                        <p>Cargas</p>
+                    </ion-col>
+                    <ion-col class="ion-text-left" size="3" *ngIf="ficha['numCargasSimp' ]>0">
+                        <p><b>Simples:{{ ficha['numCargasSimp' ] | number:"1.0-0"}}</b></p>
+                    </ion-col>
+                    <ion-col class="ion-text-left" size="3" *ngIf="ficha['numCargasInval']>0">
+                        <p><b>Invál.:{{ ficha['numCargasInval'] | number:"1.0-0"}}</b></p>
+                    </ion-col>
+                    <ion-col class="ion-text-left" size="3" *ngIf="ficha['numCargasMater']>0">
+                        <p><b>Matern.:{{ ficha['numCargasMater'] | number:"1.0-0"}}</b></p>
+                    </ion-col>
+                </ion-row>
+
+            </ion-grid>
+
+        </ion-card-content>
+
+    </ion-card>
+
 </ion-content>

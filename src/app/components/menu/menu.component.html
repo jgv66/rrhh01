@@ -8,7 +8,47 @@
     </ion-header>
   
     <ion-content>
-      <ion-list>
+
+        <div *ngFor="let p of acciones">
+
+            <!-- Standard Menu Item -->
+            <ion-menu-toggle *ngIf="p.url && ( p.caso===0 || ( p.caso===1 && !this.datos.ficha ) || ( p.caso===2 && this.datos.ficha ) ) ">
+              <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active" >
+                <ion-icon [name]="p.icon" slot="start"></ion-icon>
+                <ion-label>
+                  {{ p.title }}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <!-- Item with Children -->
+      
+            <ion-item button *ngIf=" p.children?.length > 0 " (click)="p.open = !p.open" [class.parent-active]=" p.open " detail="false">
+              <ion-icon slot="start" name="arrow-forward" *ngIf=" !p.open "></ion-icon>
+              <ion-icon slot="start" name="arrow-down"    *ngIf=" p.open  "></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+      
+            <!-- Children List for clicked Item -->
+            <ion-list *ngIf="p.open">
+              <ion-menu-toggle>
+                <ion-item style="padding-left: 15px; " 
+                          *ngFor="let sub of p.children" 
+                          class="sub-item" 
+                          [disabled]=" !this.datos.ficha "
+                          [routerLink]="sub.url" 
+                          routerDirection="root"
+                          routerLinkActive="active">
+                  <ion-icon [name]="sub.icon" slot="start"></ion-icon>
+                  <ion-label>
+                    {{ sub.title }}
+                  </ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            </ion-list>
+      
+          </div>
+
+      <!-- <ion-list>
         <ion-menu-toggle auto-hide="true">
 
           <div>
@@ -36,10 +76,10 @@
               <ion-list-header>
                 Mis Solicitudes
               </ion-list-header>
-              <ion-item style="padding-left: 15px; " [disabled]="onoff()" routerLink="/anticipo"><ion-icon slot="start" name="cash"       ></ion-icon>Anticipos</ion-item>
-              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="ice-cream"  ></ion-icon>Vacaciones</ion-item>
-              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="medkit"     ></ion-icon>Licencias</ion-item>
-              <ion-item style="padding-left: 15px; " [disabled]="onoff()"><ion-icon slot="start" name="folder-open"></ion-icon>Certificados</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()" routerLink="/anticipo"><ion-icon slot="start" name="cash"></ion-icon>Anticipos</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()">                       <ion-icon slot="start" name="ice-cream"  ></ion-icon>Vacaciones</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()">                       <ion-icon slot="start" name="medkit"     ></ion-icon>Licencias</ion-item>
+              <ion-item style="padding-left: 15px; " [disabled]="onoff()">                       <ion-icon slot="start" name="folder-open"></ion-icon>Certificados</ion-item>
             </ion-list>              
           </div>
 
@@ -63,7 +103,9 @@
           </div>
 
         </ion-menu-toggle>
-      </ion-list>
+      </ion-list> -->
+
     </ion-content>
+
   </ion-menu>
 

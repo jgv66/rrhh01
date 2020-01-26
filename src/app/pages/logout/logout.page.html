@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-button (click)="menuToggle()">
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+            </ion-button>
+            <!-- <ion-menu-button autoHide="false"></ion-menu-button> -->
+        </ion-buttons>
+        <ion-title>Logout</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card class="welcome-card">
+
+        <ion-img src="assets/images/logout.jpg"></ion-img>
+
+        <ion-card-header style="padding-top: 10px;padding-bottom: 10px;">
+            <ion-card-title class="ion-text-center">Cerrar mi sesión</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; text-align: justify; font-size: 80% !important;">
+            <p class="text-align: justify;">Gracias por preferir nuestros servicios de ayuda en Recursos Humanos. Siéntase libre de enviarnos sus comentarios o sugerencias de mejoras o corrección de problemas que haya tenido en esta sesión.</p>
+            <br>
+            <p class="text-align: justify;">De todas formas, que tenga un excelente día.</p>
+
+            <ion-row style="font-size: 70%;margin-top: 10px;">
+                <ion-col size="12">
+                    <ion-button (click)="byebye()" color="mango" expand="block" size="small">Cerrar y Salir</ion-button>
+                </ion-col>
+            </ion-row>
+
+        </ion-card-content>
+
+        <ion-img style="margin-bottom: 25px;" src="assets/images/logo-kinetik.jpg"></ion-img>
+
+    </ion-card>
+
+
+</ion-content>

@@ -15,9 +15,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { DatosService } from './services/datos.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { FiltrarPipe } from './pipes/filtrar.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, FiltrarPipe],
   entryComponents: [],
   imports: [
     BrowserModule,

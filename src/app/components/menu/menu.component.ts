@@ -13,13 +13,46 @@ import { FuncionesService } from 'src/app/services/funciones.service';
 export class MenuComponent implements OnInit {
 
   acciones = [
-    { redirectTo: '/mificha', nombre: 'Mi ficha' },
+    { title: 'Bienvenida',          url: '/home',   icon: 'home',     caso: 0 },
+    { title: 'Ingresar a miPortal', url: '/login',  icon: 'md-key',   caso: 1 },
+    {
+      title: 'Mis datos',
+      children: [
+        { title: 'Mi Ficha',          url: '/mificha',          icon: 'contact' },
+        { title: 'Mis liquidaciones', url: '/misliquidaciones', icon: 'paper'   },
+      ]
+    },
+    {
+      title: 'Mis Solicitudes',
+      children: [
+        { title: 'Anticipos',     url: '/anticipo',         icon: 'cash'        },
+        { title: 'Vacaciones',    url: '/misvacaciones',    icon: 'ice-cream'   },
+        { title: 'Licencias',     url: '/mislicencias',     icon: 'medkit'      },
+        { title: 'Certificados',  url: '/miscertificados',  icon: 'folder-open' },
+      ]
+    },
+    {
+      title: 'Me Cambié',
+      children: [
+        { title: 'De domicilio',          url: '/mecambie/domicilio', icon: 'pin'         },
+        { title: 'De número telefónico',  url: '/mecambie/numero',    icon: 'call'        },
+        { title: 'De Afp',                url: '/mecambie/afp',       icon: 'trending-up' },
+        { title: 'De Isapre',             url: '/mecambie/isapre',    icon: 'nuclear'     },
+      ] 
+    },
+    {
+      title: 'Mensajería',
+      children: [
+        { title: 'Estado de mis solicitudes', url: '/miscom', icon: 'mail'  },
+      ]
+    },
+    { title: 'Cerrar sesión', url: '/logout', icon: 'md-exit',  caso: 2 }
   ];
 
   constructor( private router: Router,
                private alertCtrl: AlertController,
-               private datos: DatosService,
-               public funciones: FuncionesService ) { }
+               public  datos: DatosService,
+               public  funciones: FuncionesService ) { }
 
   ngOnInit() {}
 
@@ -27,33 +60,33 @@ export class MenuComponent implements OnInit {
     return ( this.datos.ficha ) ? false : true;
   }
 
-  login() {
-    this.router.navigate( ['/login'] );
-  }
+  // login() {
+  //   this.router.navigate( ['/login'] );
+  // }
 
-  async logout() {
-    const xn = this.datos.nombre;
-    const alert = await this.alertCtrl.create({
-      header: 'CONFIRME',
-      message: 'Desea salir y cerrar la sesión de miPortal?',
-      buttons: [
-        {
-          text: 'Aún no',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => null
-        }, {
-          text: 'Sí',
-          handler: () => {
-            this.datos.ficha  = undefined;
-            this.datos.nombre = undefined;
-            this.router.navigate(['/home']);
-            this.funciones.muestraySale( 'Nos vemos, que tengas un excelente día!', 2, 'middle' );
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
+  // async logout() {
+  //   const xn = this.datos.nombre;
+  //   const alert = await this.alertCtrl.create({
+  //     header: 'CONFIRME',
+  //     message: 'Desea salir y cerrar la sesión de miPortal?',
+  //     buttons: [
+  //       {
+  //         text: 'Aún no',
+  //         role: 'cancel',
+  //         cssClass: 'secondary',
+  //         handler: (blah) => null
+  //       }, {
+  //         text: 'Sí',
+  //         handler: () => {
+  //           this.datos.ficha  = undefined;
+  //           this.datos.nombre = undefined;
+  //           this.router.navigate(['/home']);
+  //           this.funciones.muestraySale( 'Nos vemos, que tengas un excelente día!', 2, 'middle' );
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
 
 }

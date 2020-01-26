@@ -12,9 +12,12 @@ export class DatosService {
   url = SERVER_URL;     // 'http://23.239.29.171:3070';
   ficha: string;        // numero de ficha del usuario dentro de softland
   nombre: string;       // nombre del usuario en softland
+  logeado = false;
 
   constructor( private http: HttpClient,
-               private storage: Storage ) { }
+               private storage: Storage ) { 
+    this.logeado = false;
+  }
 
   servicioWEB( cSP: string, parametros?: any ) {
     const accion = cSP;
