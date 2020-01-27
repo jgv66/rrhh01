@@ -56,12 +56,15 @@ export class LoginPage implements OnInit {
   revisaRespuesta( dev ) {
     this.cargando = false;
     //
-    if ( dev.datos[0].error ) {
-      this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
+    // console.log(dev);
+    //
+    if ( dev.resultado === 'error' ) {
+      this.funciones.msgAlert( 'ATENCION', dev.datos );
     } else if ( dev.datos[0].resultado ) {
       //
       this.datos.ficha  = dev.datos[0].ficha;
       this.datos.nombre = dev.datos[0].nombre;
+      this.datos.email  = dev.datos[0].email;
       //
       this.datos.guardarDato( 'ks_usuario', this.miRut );
       //

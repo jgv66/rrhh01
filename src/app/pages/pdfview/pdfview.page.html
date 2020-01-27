@@ -1,0 +1,54 @@
+<ion-header>
+    <ion-toolbar color="mango">
+
+        <ion-buttons slot="start">
+            <ion-button (click)="salir()">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title>{{ periodo }}</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="prepararEmail()">
+                <ion-icon slot="icon-only" name="mail"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card>
+        <ion-card-content style="padding-top: 5px; text-align: justify;" *ngIf=" enviarCorreo ">
+            <h1 class="ion-text-center">Datos del envío</h1>
+            <ion-list lines="none">
+                <ion-item>
+                    <ion-label position="floating">Enviar e-mail a...</ion-label>
+                    <ion-input autocomplete="off" type="mail" value="email" [(ngModel)]="email"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Agregar copia a...</ion-label>
+                    <ion-input autocomplete="off" type="mail" value="copia" [(ngModel)]="copia"></ion-input>
+                </ion-item>
+                <!-- <ion-item>
+                    <ion-label position="floating">Alguna observación...</ion-label>
+                    <ion-textarea rows="3" autocomplete="off" placeholder="ingrese sus comentarios aquí..." value="subject" [(ngModel)]="subject"></ion-textarea>
+                </ion-item> -->
+            </ion-list>
+
+            <ion-progress-bar *ngIf=" enviando " type="indeterminate"></ion-progress-bar>
+
+            <ion-row style="font-size: 70%;margin-top: 10px;">
+                <ion-col size="12">
+                    <ion-button (click)="sendEmail()" color="mango" expand="block" size="small">Enviar esta liquidación via email</ion-button>
+                </ion-col>
+            </ion-row>
+
+        </ion-card-content>
+    </ion-card>
+
+    <pdf-viewer src="{{ pdfEnServer }}" [fit-to-page]="false" show-all="true" style="display: block;"></pdf-viewer>
+
+</ion-content>

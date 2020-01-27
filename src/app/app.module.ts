@@ -17,6 +17,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FiltrarPipe } from './pipes/filtrar.pipe';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 @NgModule({
   declarations: [AppComponent, FiltrarPipe],
   entryComponents: [],
@@ -27,6 +29,7 @@ import { FiltrarPipe } from './pipes/filtrar.pipe';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
+    PdfViewerModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

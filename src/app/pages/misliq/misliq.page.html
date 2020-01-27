@@ -1,9 +1,37 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>misliq</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Mis Liquidaciones</ion-title>
+    </ion-toolbar>
 </ion-header>
+<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
-<ion-content>
+<ion-content class="animated fadeIn">
+
+    <ion-card class="welcome-card">
+
+        <ion-img src="assets/images/mispdf.jpg"></ion-img>
+
+        <ion-card-header style="padding-top: 10px; padding-bottom: 10px;">
+            <ion-card-title class="ion-text-center">Archivos disponibles</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
+
+            <ion-list>
+                <ion-item *ngFor="let item of liquidaciones" lines="none" (click)="buscarPDF( item )">
+                    <ion-label>{{ item.periodo }}</ion-label>
+                    <ion-button fill="clear" slot="end">
+                        <ion-icon name="cloud-download" slot="end"></ion-icon>
+                    </ion-button>
+                    <ion-progress-bar *ngIf=" item.descargando " type="indeterminate"></ion-progress-bar>
+                </ion-item>
+            </ion-list>
+
+        </ion-card-content>
+
+    </ion-card>
 
 </ion-content>

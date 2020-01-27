@@ -18,8 +18,8 @@ export class MenuComponent implements OnInit {
     {
       title: 'Mis datos',
       children: [
-        { title: 'Mi Ficha',          url: '/mificha',          icon: 'contact' },
-        { title: 'Mis liquidaciones', url: '/misliquidaciones', icon: 'paper'   },
+        { title: 'Mi Ficha',          url: '/mificha',  icon: 'contact' },
+        { title: 'Mis liquidaciones', url: '/misliqui', icon: 'paper'   },
       ]
     },
     {
@@ -59,34 +59,5 @@ export class MenuComponent implements OnInit {
   onoff() {
     return ( this.datos.ficha ) ? false : true;
   }
-
-  // login() {
-  //   this.router.navigate( ['/login'] );
-  // }
-
-  // async logout() {
-  //   const xn = this.datos.nombre;
-  //   const alert = await this.alertCtrl.create({
-  //     header: 'CONFIRME',
-  //     message: 'Desea salir y cerrar la sesión de miPortal?',
-  //     buttons: [
-  //       {
-  //         text: 'Aún no',
-  //         role: 'cancel',
-  //         cssClass: 'secondary',
-  //         handler: (blah) => null
-  //       }, {
-  //         text: 'Sí',
-  //         handler: () => {
-  //           this.datos.ficha  = undefined;
-  //           this.datos.nombre = undefined;
-  //           this.router.navigate(['/home']);
-  //           this.funciones.muestraySale( 'Nos vemos, que tengas un excelente día!', 2, 'middle' );
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   await alert.present();
-  // }
 
 }
