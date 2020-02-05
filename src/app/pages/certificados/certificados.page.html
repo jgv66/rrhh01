@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Certificados</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+
+<ion-content class="animated fadeIn">
+
+    <ion-card class="ion-no-padding">
+
+        <ion-img src="assets/images/certificados.jpg"></ion-img>
+
+        <ion-card-header>
+            <ion-card-title class="ion-text-center">Lista de disponibles</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; text-align: justify;">
+
+            <ion-list lines="none">
+                <ion-item (click)="antiguedad()">
+                    <ion-label>Antiguedad</ion-label>
+                    <ion-icon slot="end" name="print"></ion-icon>
+                </ion-item>
+                <ion-item (click)="renta()">
+                    <ion-label>Renta</ion-label>
+                    <ion-icon slot="end" name="print"></ion-icon>
+                </ion-item>
+            </ion-list>
+
+        </ion-card-content>
+
+    </ion-card>
+
+</ion-content>

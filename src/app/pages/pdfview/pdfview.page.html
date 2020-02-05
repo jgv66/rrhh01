@@ -1,3 +1,5 @@
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+
 <ion-header>
     <ion-toolbar color="mango">
 
@@ -32,23 +34,41 @@
                     <ion-label position="floating">Agregar copia a...</ion-label>
                     <ion-input autocomplete="off" type="mail" value="copia" [(ngModel)]="copia"></ion-input>
                 </ion-item>
-                <!-- <ion-item>
-                    <ion-label position="floating">Alguna observación...</ion-label>
-                    <ion-textarea rows="3" autocomplete="off" placeholder="ingrese sus comentarios aquí..." value="subject" [(ngModel)]="subject"></ion-textarea>
-                </ion-item> -->
             </ion-list>
 
             <ion-progress-bar *ngIf=" enviando " type="indeterminate"></ion-progress-bar>
 
             <ion-row style="font-size: 70%;margin-top: 10px;">
                 <ion-col size="12">
-                    <ion-button (click)="sendEmail()" color="mango" expand="block" size="small">Enviar esta liquidación via email</ion-button>
+                    <ion-button (click)="sendEmail()" color="mango" expand="block" size="small">Enviar este documento vía email</ion-button>
                 </ion-col>
             </ion-row>
 
         </ion-card-content>
     </ion-card>
 
-    <pdf-viewer src="{{ pdfEnServer }}" [fit-to-page]="false" show-all="true" style="display: block;"></pdf-viewer>
+
+    <div>
+
+        <pdf-viewer src="{{ pdfEnServer }}" [show-borders]="true" show-all="true" [zoom]="pdfZoom" [fit-to-page]="true" [render-text]="true"></pdf-viewer>
+
+        <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+            <ion-fab-button color="mango">
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+                <ion-fab-button (click)="zoomIn()" color="primary">
+                    <ion-icon name="body"> </ion-icon>
+                </ion-fab-button>
+                <ion-fab-button (click)="zoomOut()" color="primary">
+                    <ion-icon name="man"> </ion-icon>
+                </ion-fab-button>
+                <ion-fab-button (click)="resetZoom()" color="primary">
+                    <ion-icon name="expand"> </ion-icon>
+                </ion-fab-button>
+            </ion-fab-list>
+        </ion-fab>
+
+    </div>
 
 </ion-content>

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { DatosService } from '../../services/datos.service';
 import { FuncionesService } from '../../services/funciones.service';
 import { PdfviewPage } from '../pdfview/pdfview.page';
-// import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-misliq',

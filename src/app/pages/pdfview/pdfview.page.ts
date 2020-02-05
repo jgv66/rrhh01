@@ -4,6 +4,9 @@ import { ModalController } from '@ionic/angular';
 import { DatosService } from '../../services/datos.service';
 import { FuncionesService } from '../../services/funciones.service';
 
+const ZOOM_STEP     = 1;
+const DEFAULT_ZOOM  = 1;
+
 @Component({
   selector: 'app-pdfview',
   templateUrl: './pdfview.page.html',
@@ -19,6 +22,8 @@ export class PdfviewPage implements OnInit {
   enviarCorreo = false;
   subject = '';
   copia = '';
+  // -------------------------
+  pdfZoom = DEFAULT_ZOOM;
 
   constructor( private pdfviewer: PdfViewerModule,
                private modalCtrl: ModalController,
@@ -26,8 +31,8 @@ export class PdfviewPage implements OnInit {
                private datos: DatosService ) {}
 
   ngOnInit() {
-    // console.log( this.pdf, this.periodo );
     this.pdfEnServer = this.datos.url + '/static/pdf/' + this.pdf;
+    console.log( 'PdfviewPage ->', this.pdfEnServer );
   }
 
   salir() {
@@ -61,6 +66,20 @@ export class PdfviewPage implements OnInit {
     } else {
       this.funciones.msgAlert( 'ATENCION', 'El email fue enviado con exito.' + dev.mensaje );
     }
+  }
+
+  zoomIn() {
+    this.pdfZoom += ZOOM_STEP;
+  }
+
+  zoomOut() {
+    if (this.pdfZoom > DEFAULT_ZOOM) {
+      this.pdfZoom -= ZOOM_STEP;
+    }
+  }
+
+  resetZoom()	{
+    this.pdfZoom = DEFAULT_ZOOM;
   }
 
 }
