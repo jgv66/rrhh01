@@ -33,7 +33,7 @@ export class CertificadosPage implements OnInit {
             this.cargando = false;
             console.log( dev );
             if ( dev.resultado === 'error' ) {
-              this.funciones.msgAlert( 'ATENCION', dev[0].datos );
+              this.funciones.msgAlert( dev.datos.code, dev.datos.name );
             } else {
               // asigna el dato obtenido
               this.verPdf( dev );

@@ -42,6 +42,9 @@ export class MiscomPage implements OnInit {
       if ( event ) {
         event.target.complete();
       }
+      if ( this.mensajes.length === 0 ) {
+        this.funciones.msgAlert( 'ATENCION', 'No existen mensajes para mostrar' );
+      }
       //
     }
   }
