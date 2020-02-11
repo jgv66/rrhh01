@@ -23,8 +23,8 @@
             <ion-list>
                 <ion-item *ngFor="let item of liquidaciones" lines="none" (click)="buscarPDF( item )">
                     <ion-label>{{ item.periodo }}</ion-label>
-                    <ion-button fill="clear" slot="end">
-                        <ion-icon name="cloud-download" slot="end"></ion-icon>
+                    <ion-button slot="end">Revisar
+                        <!-- <ion-icon name="cloud-download" slot="end"></ion-icon> -->
                     </ion-button>
                     <ion-progress-bar *ngIf=" item.descargando " type="indeterminate"></ion-progress-bar>
                 </ion-item>

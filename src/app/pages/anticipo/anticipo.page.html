@@ -1,50 +1,42 @@
 <ion-header>
-  <ion-toolbar color="mango">
-    <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
-    </ion-buttons>      
-    <ion-title>Solicitud de anticipo</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Solicitud de anticipo</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-card style="padding-left: 5px;">
+    <ion-card style="padding-left: 5px;">
 
-    <ion-img src="assets/images/anticipo.jpg"></ion-img>
+        <ion-img src="assets/images/anticipo.jpg"></ion-img>
 
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">Solicitar Anticipo</ion-card-title>
-    </ion-card-header>
+        <ion-card-header>
+            <ion-card-title class="ion-text-center">Solicitar Anticipo</ion-card-title>
+        </ion-card-header>
 
-    <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
-      <ion-list>
-        <ion-item>
-          <ion-label position="fixed">Para fecha</ion-label>
-          <ion-datetime display-format="DD.MMM.YYYY"
-                        monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
-                        min="2019-01-01"
-                        max="2020-12-31"
-                        place-holder="fecha"
-                        cancelText="Cancelar"
-                        doneText="Listo"
-                        [ngModel]="fecha"
-                        ></ion-datetime>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label position="fixed">Monto $</ion-label>
-          <ion-input autocomplete="off" type="number" name="monto" [(ngModel)]="monto"></ion-input>
-        </ion-item>
+        <ion-card-content style="padding-top: 5px; padding-left: 5px; text-align: justify;">
+            <ion-list>
+                <ion-item>
+                    <ion-label position="fixed">Para fecha</ion-label>
+                    <ion-datetime display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2019-01-01" max="2030-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo" [(ngModel)]="fecha"></ion-datetime>
+                </ion-item>
 
-        <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar solicitud</ion-button>
+                <ion-item>
+                    <ion-label position="fixed">Monto $</ion-label>
+                    <ion-input autocomplete="off" type="number" name="monto" [(ngModel)]="monto"></ion-input>
+                </ion-item>
 
-      </ion-list>
-      <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>        
+                <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar solicitud</ion-button>
 
-    </ion-card-content>
+            </ion-list>
+            <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
-  </ion-card>  
-    
+        </ion-card-content>
+
+    </ion-card>
+
 
 </ion-content>

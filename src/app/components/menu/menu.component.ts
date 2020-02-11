@@ -27,8 +27,8 @@ export class MenuComponent implements OnInit {
       children: [
         { title: 'Anticipos',     url: '/anticipo',      icon: 'cash'        },
         { title: 'Certificados',  url: '/certificados',  icon: 'folder-open' },
-        { title: 'Licencias',     url: '/mislicencias',  icon: 'medkit'      },
         { title: 'Vacaciones',    url: '/misvacaciones', icon: 'ice-cream'   },
+        { title: 'Licencias',     url: '/mislicencias',  icon: 'medkit'      },
       ]
     },
     {

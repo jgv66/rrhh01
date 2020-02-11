@@ -11,6 +11,7 @@ const routes: Routes =
   { path: 'misliqui',       loadChildren: () => import('./pages/misliq/misliq.module')            .then(m => m.MisliqPageModule        ) },
   { path: 'anticipo',       loadChildren: () => import('./pages/anticipo/anticipo.module')        .then(m => m.AnticipoPageModule      ) },
   { path: 'certificados',   loadChildren: () => import('./pages/certificados/certificados.module').then(m => m.CertificadosPageModule  ) },
+  { path: 'misvacaciones',  loadChildren: () => import('./pages/vacaciones/vacaciones.module')    .then(m => m.VacacionesPageModule    ) },
   { path: 'miscom',         loadChildren: () => import('./pages/miscom/miscom.module')            .then(m => m.MiscomPageModule        ) },
   { path: 'mecambie/:caso', loadChildren: () => import('./pages/mecambie/mecambie.module')        .then(m => m.MecambiePageModule      ) },
   { path: '**',             redirectTo: 'home', pathMatch: 'full' },

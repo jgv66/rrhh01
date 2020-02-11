@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Vacaciones</ion-title>
+        <ion-buttons style="margin-right: 10px;" slot="end" (click)="solicitar()">
+            <ion-icon size="large" name="ice-cream"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+
+<ion-content class="animated fadeInDown">
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Tire para refrescar" refreshingSpinner="circles" refreshingText="Refrescando...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-card class="ion-no-padding animated fadeIn" *ngIf=" vacaciones ">
+        <ion-img src="assets/images/pedirvacaciones.jpg"></ion-img>
+
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center">Quiero vacaciones!</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; text-align: justify; padding-left: 10px; padding-right: 10px;">
+            <ion-list lines="none" style="font-size: 90%;">
+                <ion-item>
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Solicito vacaciones desde :</ion-label>
+                    <ion-datetime style="padding-left: 5px; padding-right: 10px;" name="finicio" [(ngModel)]="finicio" [ngModelOptions]="{standalone: true}" display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2020-01-01"
+                        max="2030-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Hasta el día :</ion-label>
+                    <ion-datetime style="padding-left: 5px; padding-right: 10px;" name="ffinal" [(ngModel)]="ffinal" [ngModelOptions]="{standalone: true}" display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2020-01-01"
+                        max="2026-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo"></ion-datetime>
+                </ion-item>
+            </ion-list>
+            <p style="padding: 10px; font-size: 75%;">
+                Esta solicitud será enviada al departamento de Recursos Humanos, quien revisará la factibilidad de la petición y luego procederá, si corresponde, a autorizar o rechazar o ajustar dicha petición. Bajo ninguna circunstancia, este envío representa una confirmación
+                a su solicitud.</p>
+            <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar solicitud</ion-button>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-no-padding">
+
+        <ion-img src="assets/images/vacaciones.jpg"></ion-img>
+
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center">Disponibilidad</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; text-align: justify; padding-left: 10px; padding-right: 10px;">
+            <ion-list lines="none" style="font-size: 90%;">
+                <ion-item style="height: 35px;">
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Al día de hoy :</ion-label>
+                    <ion-label style="font-weight: bolder;">{{ hoy | date:"dd.MMMyyyy" }}</ion-label>
+                </ion-item>
+                <ion-item style="height: 35px;">
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Total Vacaciones :</ion-label>
+                    <ion-label style="font-weight: bolder;">{{ misdatos.total | number:"1.0-2" }} días</ion-label>
+                </ion-item>
+                <ion-item style="height: 35px;">
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Total Utilizados :</ion-label>
+                    <ion-label style="font-weight: bolder;">{{ misdatos.asignadas | number:"1.0-2" }} días</ion-label>
+                </ion-item>
+                <ion-item style="height: 35px;">
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Saldo de Vacaciones :</ion-label>
+                    <ion-label style="font-weight: bolder;">{{ misdatos.totaldisponible | number:"1.0-2" }} días</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-no-padding">
+
+        <ion-img src="assets/images/vacaciones2.jpg"></ion-img>
+
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center">Solicitudes previas</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding: 5px; text-align: justify;">
+
+            <ion-list *ngIf=" solicitudes.length>0 " style="font-size: 80%;">
+                <ion-item *ngFor="let item of solicitudes" style="font-size: 80%;">
+                    <ion-label class="ion-text-wrap">
+                        <ion-text>
+                            <p>Rango solicitado de vacaciones</p>
+                            <ion-chip>
+                                <ion-label>{{ item.sdesde | date:"dd.MMMyyyy" }} al {{ item.shasta | date:"dd.MMMyyyy" }} = {{ item.ndias | number:"1.0-0" }} {{ item.ndias === 1 ? 'día' : 'días' }}</ion-label>
+                            </ion-chip>
+                        </ion-text>
+                        <ion-text color="primary">
+                            <p>Rango efectivo de vacaciones</p>
+                            <ion-chip color="primary">
+                                <ion-label>{{ item.adesde | date:"dd.MMMyyyy" }} al {{ item.ahasta | date:"dd.MMMyyyy" }} = {{ item.ndiasaplicados | number:"1.0-0" }} {{ item.ndiasaplicados === 1 ? 'día' : 'días' }}</ion-label>
+                            </ion-chip>
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+
+        </ion-card-content>
+
+    </ion-card>
+
+</ion-content>
