@@ -21,8 +21,7 @@ export class DatosService {
   }
 
   servicioWEB( cSP: string, parametros?: any ) {
-    const accion = cSP;
-    const url    = this.url + accion;
+    const url    = this.url + cSP;
     const body   = parametros;
     return this.http.post( url, body );
   }
@@ -31,9 +30,9 @@ export class DatosService {
   guardarDato( key, value ) {
     this.storage.set( key, value );
   }
+
   async leerDato( key ) {
     return await this.storage.get( key );
   }
-
 
 }

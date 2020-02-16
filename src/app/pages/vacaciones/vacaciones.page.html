@@ -19,7 +19,8 @@
     </ion-refresher>
 
     <ion-card class="ion-no-padding animated fadeIn" *ngIf=" vacaciones ">
-        <ion-img src="assets/images/pedirvacaciones.jpg"></ion-img>
+
+        <img src="assets/images/pedirvacaciones.jpg" alt="x1">
 
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
             <ion-card-title class="ion-text-center">Quiero vacaciones!</ion-card-title>
@@ -40,14 +41,16 @@
             </ion-list>
             <p style="padding: 10px; font-size: 75%;">
                 Esta solicitud será enviada al departamento de Recursos Humanos, quien revisará la factibilidad de la petición y luego procederá, si corresponde, a autorizar o rechazar o ajustar dicha petición. Bajo ninguna circunstancia, este envío representa una confirmación
-                a su solicitud.</p>
+                o aceptación a su solicitud.</p>
             <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar solicitud</ion-button>
+
         </ion-card-content>
+        <ion-progress-bar *ngIf=" solicitando " type="indeterminate"></ion-progress-bar>
     </ion-card>
 
     <ion-card class="ion-no-padding">
 
-        <ion-img src="assets/images/vacaciones.jpg"></ion-img>
+        <img src="assets/images/vacaciones.jpg" alt="x2">
 
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
             <ion-card-title class="ion-text-center">Disponibilidad</ion-card-title>
@@ -77,7 +80,7 @@
 
     <ion-card class="ion-no-padding">
 
-        <ion-img src="assets/images/vacaciones2.jpg"></ion-img>
+        <img src="assets/images/vacaciones2.jpg" alt="x3">
 
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
             <ion-card-title class="ion-text-center">Solicitudes previas</ion-card-title>

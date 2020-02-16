@@ -1,24 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-
 import { DatosService } from '../../services/datos.service';
 import { FuncionesService } from '../../services/funciones.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-vacaciones',
-  templateUrl: './vacaciones.page.html',
-  styleUrls: ['./vacaciones.page.scss'],
+  selector: 'app-licencias',
+  templateUrl: './licencias.page.html',
+  styleUrls: ['./licencias.page.scss'],
 })
-export class VacacionesPage implements OnInit {
+export class LicenciasPage implements OnInit {
 
   cargando = false;
-  solicitando = false;
-  vacaciones = false;
-  hoy = new Date();
-  misdatos: any = {};
+  informando = false;
+  avisos: any;
+  enviando = false;
   finicio = new Date();
-  ffinal  = new Date();
-  solicitudes = [];
+  ffinal = new Date();
+  comentario = '';
 
   constructor( public datos: DatosService,
                private funciones: FuncionesService,
@@ -32,42 +30,33 @@ export class VacacionesPage implements OnInit {
   ionViewWillEnter() {
     this.cargarDatos();
   }
-
   cargarDatos( event? ) {
-    this.cargando = true;
-    this.datos.servicioWEB( '/leerVacaciones', { ficha: this.datos.ficha } )
+    // this.cargando = true;
+    this.avisos = undefined;
+    this.datos.servicioWEB( '/leerLicencias', { ficha: this.datos.ficha } )
         .subscribe( (dev: any) => {
-            // console.log(dev);
-            if ( dev.resultado === 'error' ) {
-              this.cargando = false;
-              // this.funciones.msgAlert( 'ATENCION', dev[0].datos );
-            } else {
-              this.misdatos = dev.datos[0];
-              this.detalleVacaciones( event );
-            }
-        });
-  }
-  detalleVacaciones( event? ) {
-    this.datos.servicioWEB( '/leerDetalleVacaciones', { ficha: this.datos.ficha } )
-        .subscribe( (dev: any) => {
-            console.log(dev.datos);
+            console.log(dev);
             this.cargando = false;
             if ( dev.resultado === 'error' ) {
-              // this.funciones.msgAlert( 'ATENCION', dev[0].datos );
+              // this.funciones.msgAlert( 'ATENCION', 'Error al consultar licencias previas' ); //dev.datos.originalError.info.message
             } else {
-              this.solicitudes = dev.datos;
+              this.avisos = dev.datos[0];
               if ( event ) {
                 event.target.complete();
               }
             }
+        },
+        ( err: any )  => {
+            this.cargando = false;
+            console.log(err);
         });
   }
   doRefresh( event ) {
     this.cargarDatos( event );
   }
 
-  solicitar() {
-    this.vacaciones = !this.vacaciones;
+  informar() {
+    this.informando = !this.informando;
   }
 
   enviar() {
@@ -77,12 +66,12 @@ export class VacacionesPage implements OnInit {
     const diasdiff = this.funciones.diferenciaEntreDiasEnDias( xdesde, xhasta ) + 1;
     //
     if ( xhasta >= xdesde )  {
-      this.solicitando = true;
+      this.enviando = true;
       //
       const hinicio = this.funciones.fechaHumano( xdesde );
       const hfinal  = this.funciones.fechaHumano( xhasta );
       //
-      this.datos.servicioWEB( '/pedirVacaciones', { ficha: this.datos.ficha, desde: hinicio, hasta: hfinal, dias: diasdiff } )
+      this.datos.servicioWEB( '/informarLicencia', { ficha: this.datos.ficha, desde: hinicio, hasta: hfinal, dias: diasdiff, comentario: this.comentario } )
           .subscribe( dev => this.revisaRespuesta( dev ) );
       //
     } else {
@@ -90,10 +79,9 @@ export class VacacionesPage implements OnInit {
     }
   }
   revisaRespuesta( dev ) {
-    this.solicitando = false;
+    this.enviando = false;
     //
     if ( dev.resultado === 'ok' ) {
-      this.vacaciones = false;
       this.funciones.msgAlert( 'ATENCION', dev.mensaje, 'Enviado y registrado' );
       this.router.navigate(['/home']);
     } else {

@@ -28,16 +28,18 @@ export class AnticipoPage implements OnInit {
     //
     const xmes = (new Date()).getMonth();
     const xano = (new Date()).getFullYear();
+    const xfecha = new Date(this.fecha);
+    const hFecha = this.funciones.fechaHumano( xfecha );
     //
     if ( this.monto <= 0) {
       this.funciones.msgAlert( 'ATENCION', 'El monto no puede ser negativo o cero.', 'Corrija y reintente' );
-    } else if ( this.fecha.getMonth() !== xmes ) {
+    } else if ( xfecha.getMonth() !== xmes ) {
       this.funciones.msgAlert( 'ATENCION', 'El mes no puede ser distinto del actual.', 'Corrija y reintente' );
-    } else if ( this.fecha.getFullYear() !== xano ) {
+    } else if ( xfecha.getFullYear() !== xano ) {
       this.funciones.msgAlert( 'ATENCION', 'El año no puede ser distinto del actual.', 'Corrija y reintente' );
     } else {
       this.cargando = true;
-      this.datos.servicioWEB( '/pedirAnticipo', { ficha: this.datos.ficha, monto: this.monto, fecha: this.fecha } )
+      this.datos.servicioWEB( '/pedirAnticipo', { ficha: this.datos.ficha, monto: this.monto, fecha: hFecha } )
           .subscribe( dev => this.revisaRespuesta( dev ) );
     }
   }

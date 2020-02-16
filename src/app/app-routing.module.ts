@@ -12,6 +12,7 @@ const routes: Routes =
   { path: 'anticipo',       loadChildren: () => import('./pages/anticipo/anticipo.module')        .then(m => m.AnticipoPageModule      ) },
   { path: 'certificados',   loadChildren: () => import('./pages/certificados/certificados.module').then(m => m.CertificadosPageModule  ) },
   { path: 'misvacaciones',  loadChildren: () => import('./pages/vacaciones/vacaciones.module')    .then(m => m.VacacionesPageModule    ) },
+  { path: 'mislicencias',   loadChildren: () => import('./pages/licencias/licencias.module')      .then(m => m.LicenciasPageModule     ) },
   { path: 'miscom',         loadChildren: () => import('./pages/miscom/miscom.module')            .then(m => m.MiscomPageModule        ) },
   { path: 'mecambie/:caso', loadChildren: () => import('./pages/mecambie/mecambie.module')        .then(m => m.MecambiePageModule      ) },
   { path: '**',             redirectTo: 'home', pathMatch: 'full' },
