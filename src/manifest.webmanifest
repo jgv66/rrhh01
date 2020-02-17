@@ -1,8 +1,8 @@
 {
-    "name": "miPortal v0.85",
+    "name": "miPortal v0.95",
     "short_name": "miPortal",
     "theme_color": "#1976d2",
-    "background_color": "#FF4A3F",
+    "background_color": "#fafafa",
     "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
