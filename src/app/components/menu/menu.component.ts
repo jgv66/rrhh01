@@ -12,7 +12,7 @@ import { FuncionesService } from 'src/app/services/funciones.service';
 })
 export class MenuComponent implements OnInit {
 
-  acciones = [
+  acciones: any = [
     { title: 'Bienvenida',          url: '/home',   icon: 'home',     caso: 0 },
     { title: 'Ingresar a miPortal', url: '/login',  icon: 'md-key',   caso: 1 },
     {
@@ -38,7 +38,7 @@ export class MenuComponent implements OnInit {
         { title: 'De número telefónico',  url: '/mecambie/numero',    icon: 'call'        },
         { title: 'De Afp',                url: '/mecambie/afp',       icon: 'trending-up' },
         { title: 'De Isapre',             url: '/mecambie/isapre',    icon: 'nuclear'     },
-      ] 
+      ]
     },
     {
       title: 'Mensajería',

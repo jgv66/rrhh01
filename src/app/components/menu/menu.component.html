@@ -23,7 +23,7 @@
 
             <ion-item button *ngIf=" p.children?.length > 0 " (click)="p.open = !p.open" [class.parent-active]=" p.open " detail="false">
                 <ion-icon slot="start" name="arrow-forward" *ngIf=" !p.open "></ion-icon>
-                <ion-icon slot="start" name="arrow-down" *ngIf=" p.open  "></ion-icon>
+                <ion-icon slot="start" name="arrow-down" *ngIf=" p.open "></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
             </ion-item>
 

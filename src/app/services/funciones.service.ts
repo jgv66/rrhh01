@@ -48,7 +48,7 @@ export class FuncionesService {
     return Math.floor((utc2 - utc1) / MILISENGUNDOS_POR_DIA);
     //
   }
-  
+
   diaSemana( fecha: Date ) {
     const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     return dias[ fecha.getUTCDay() ];

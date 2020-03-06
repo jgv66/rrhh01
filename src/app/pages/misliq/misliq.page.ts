@@ -49,7 +49,7 @@ export class MisliqPage implements OnInit {
   }
   revisaRespuesta( dev, periodo ) {
     this.cargando = false;
-    // console.log( dev );
+    console.log( dev );
     if ( dev.resultado === 'error' ) {
       this.funciones.msgAlert( 'ATENCION', dev[0].datos );
     } else {
@@ -64,7 +64,8 @@ export class MisliqPage implements OnInit {
       component: PdfviewPage,
       componentProps: { pdf: dev.datos,
                         periodo: peri,
-                        email: this.datos.email }
+                        email: this.datos.email,
+                        desde: 'Mi liquidación de ' + peri }
     });
     await modal.present();
 

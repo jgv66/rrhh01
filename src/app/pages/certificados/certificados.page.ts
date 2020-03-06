@@ -47,6 +47,7 @@ export class CertificadosPage implements OnInit {
       component: PdfviewPage,
       componentProps: { pdf: dev.datos,
                         periodo: 'Certif. de Antiguedad',
+                        desde: 'Certif. de Antiguedad',
                         email: this.datos.email }
     });
     await modal.present();
@@ -56,7 +57,7 @@ export class CertificadosPage implements OnInit {
   }
 
   renta() {
-    console.log('renta');
+    this.funciones.msgAlert( 'ATENCION', 'En construcción' );
   }
 
 

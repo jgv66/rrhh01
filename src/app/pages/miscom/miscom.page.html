@@ -4,6 +4,9 @@
             <ion-menu-button autoHide="false"></ion-menu-button>
         </ion-buttons>
         <ion-title>Mi mensajería</ion-title>
+        <ion-buttons style="margin-right: 10px;" slot="end" (click)="doRefresh($event)">
+            <ion-icon name="refresh"></ion-icon>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>

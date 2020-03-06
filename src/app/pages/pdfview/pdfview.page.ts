@@ -17,6 +17,7 @@ export class PdfviewPage implements OnInit {
   @Input() pdf;
   @Input() periodo;
   @Input() email;
+  @Input() desde;
   pdfEnServer;
   enviando = false;
   enviarCorreo = false;
@@ -32,6 +33,7 @@ export class PdfviewPage implements OnInit {
 
   ngOnInit() {
     this.pdfEnServer = this.datos.url + '/static/pdf/' + this.pdf;
+    this.desde = (this.desde === '' || this.desde === undefined) ? '' : this.desde;
     console.log( 'PdfviewPage ->', this.pdfEnServer );
   }
 
@@ -51,7 +53,8 @@ export class PdfviewPage implements OnInit {
     this.enviando = true;
     this.datos.servicioWEB( '/enviarPDF', { to: this.email,
                                             cc: this.copia,
-                                            subject: this.subject,
+                                            desde: this.desde,
+                                            subject: (this.subject === '' || this.subject === undefined) ? this.desde : this.subject,
                                             filename: this.pdf,
                                             nombres: this.datos.nombre,
                                             codigo: this.datos.ficha,

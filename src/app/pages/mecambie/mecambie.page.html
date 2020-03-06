@@ -14,7 +14,7 @@
 
     <ion-card class="ion-no-padding">
 
-        <img src="assets/images/mecambie.jpg" alt="x1">
+        <img src="assets/images/mecambie2.jpg" alt="x1">
 
         <ion-card-header>
             <ion-card-title class="ion-text-center">Cambiar mi {{ this.caso }}</ion-card-title>
@@ -47,21 +47,21 @@
 
                 <ion-item *ngIf=" regiones ">
                     <ion-label position="stacked">Región</ion-label>
-                    <ion-select (ionChange)="lasCiudades()" value="region" [(ngModel)]="region" interface="alert" placeholder="Seleccione una región...">
+                    <ion-select (ionChange)="lasCiudades()" value="region" [(ngModel)]="region" interface="alert" mode='ios' placeholder="Seleccione una región...">
                         <ion-select-option *ngFor="let reg of regiones" [value]="reg.cod">{{ reg.nom }}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item *ngIf=" region ">
                     <ion-label position="stacked">Ciudad</ion-label>
-                    <ion-select (ionChange)="lasComunas()" value="datoNuevo2" [(ngModel)]="datoNuevo2" interface="alert" placeholder="Seleccione una ciudad...">
+                    <ion-select (ionChange)="lasComunas()" value="datoNuevo2" [(ngModel)]="datoNuevo2" interface="alert" mode='ios' placeholder="Seleccione una ciudad...">
                         <ion-select-option *ngFor="let ciu of ciudades" [value]="ciu.nom">{{ ciu.nom }}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item *ngIf=" datoNuevo2 ">
                     <ion-label position="stacked">Comuna</ion-label>
-                    <ion-select value="datoNuevo3" [(ngModel)]="datoNuevo3" interface="alert" placeholder="Seleccione una comuna...">
+                    <ion-select value="datoNuevo3" [(ngModel)]="datoNuevo3" interface="alert" mode='ios' placeholder="Seleccione una comuna...">
                         <ion-select-option *ngFor="let com of comunas" [value]="com.nom">{{ com.nom }}</ion-select-option>
                     </ion-select>
                 </ion-item>
@@ -91,7 +91,7 @@
             <ion-list lines="none">
                 <ion-item>
                     <ion-label>Nuevo número : </ion-label>
-                    <ion-input type="tel" value="datoNuevo1" [(ngModel)]="datoNuevo1"></ion-input>
+                    <ion-input type="number" value="datoNuevo1" [(ngModel)]="datoNuevo1"></ion-input>
                 </ion-item>
 
             </ion-list>
@@ -110,7 +110,7 @@
             <h1>Datos actuales</h1>
             <ion-grid fixed>
                 <ion-row>
-                    <ion-col size="5">AFP actual : </ion-col>
+                    <ion-col size="5">Previsión actual</ion-col>
                     <ion-col size="7">{{ ficha?.afp }}</ion-col>
                 </ion-row>
             </ion-grid>
@@ -118,7 +118,7 @@
             <h1 style='padding-top: 25px;'>Nuevos datos</h1>
             <ion-list lines="none">
                 <ion-item>
-                    <ion-label position="stacked">Nueva AFP</ion-label>
+                    <ion-label position="stacked">Nueva Previsión</ion-label>
                     <ion-select value="datoNuevo1" [(ngModel)]="datoNuevo1" interface="alert" placeholder="Seleccione una AFP...">
                         <ion-select-option *ngFor="let afp of afps" [value]="afp.nom">{{ afp.nom }}</ion-select-option>
                     </ion-select>
@@ -140,7 +140,7 @@
             <h1>Datos actuales</h1>
             <ion-grid fixed>
                 <ion-row>
-                    <ion-col size="5">ISAPRE actual : </ion-col>
+                    <ion-col size="5">Sist. de Salud</ion-col>
                     <ion-col size="7">{{ ficha?.isapre }}</ion-col>
                 </ion-row>
             </ion-grid>
@@ -148,7 +148,7 @@
             <h1 style='padding-top: 25px;'>Nuevos datos</h1>
             <ion-list lines="none">
                 <ion-item>
-                    <ion-label position="stacked">Nueva ISAPRE</ion-label>
+                    <ion-label position="stacked">Nuevo Sistema de Salud</ion-label>
                     <ion-select value="datoNuevo1" [(ngModel)]="datoNuevo1" interface="alert" placeholder="Seleccione una ISAPRE...">
                         <ion-select-option *ngFor="let isa of isapres" [value]="isa.nom">{{ isa.nom }}</ion-select-option>
                     </ion-select>
