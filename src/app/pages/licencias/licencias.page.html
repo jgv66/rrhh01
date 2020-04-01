@@ -11,79 +11,78 @@
     <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content>
-    <ion-content class="animated fadeInDown">
+<ion-content class="animated fadeInDown">
 
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-            <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Tire para refrescar" refreshingSpinner="circles" refreshingText="Refrescando...">
-            </ion-refresher-content>
-        </ion-refresher>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Tire para refrescar" refreshingSpinner="circles" refreshingText="Refrescando...">
+        </ion-refresher-content>
+    </ion-refresher>
 
-        <ion-card class="ion-no-padding animated fadeIn" *ngIf=" informando ">
+    <ion-card class="ion-no-padding animated fadeIn" *ngIf=" informando ">
 
-            <img src="assets/images/licencia.jpg" alt="x1">
+        <img src="assets/images/licencia.jpg" alt="x1">
 
-            <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
-                <ion-card-title class="ion-text-center">Informar licencia</ion-card-title>
-            </ion-card-header>
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center">Informar licencia</ion-card-title>
+        </ion-card-header>
 
-            <ion-card-content style="padding-top: 5px; text-align: justify; padding-left: 10px; padding-right: 10px;">
-                <ion-list lines="none" style="font-size: 90%;">
-                    <ion-item style=" max-height: 35px;">
-                        <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Inicio de licencia :</ion-label>
-                        <ion-datetime style="padding-left: 5px; padding-right: 10px;" name="finicio" [(ngModel)]="finicio" [ngModelOptions]="{standalone: true}" display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2020-01-01"
-                            max="2030-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo"></ion-datetime>
-                    </ion-item>
-                    <ion-item style=" max-height: 35px;">
-                        <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Hasta el día :</ion-label>
-                        <ion-datetime style="padding-left: 5px; padding-right: 10px;" name="ffinal" [(ngModel)]="ffinal" [ngModelOptions]="{standalone: true}" display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2020-01-01"
-                            max="2026-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo"></ion-datetime>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label position="stacked">Comentarios</ion-label>
-                        <ion-textarea name="comentario" [(ngModel)]="comentario" rows="3" cols="20" placeholder="Ingrese aquí sus comentarios..." color="primary"></ion-textarea>
-                    </ion-item>
-                </ion-list>
-                <p style="padding: 10px; font-size: 75%;">
-                    Esta información será enviada al departamento de Recursos Humanos (RRHH), quien ya debería tener conocimiento del problema. El sistema de salud Chilena, envía un copia electrónica de la licencia médica al empleador. Este trámite es para informar al departamento
-                    y resguardar su continuidad laboral.</p>
-                <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar aviso</ion-button>
+        <ion-card-content style="padding-top: 5px; text-align: justify; padding-left: 10px; padding-right: 10px;">
+            <ion-list lines="none" style="font-size: 90%;">
+                <ion-item style=" max-height: 35px;">
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Inicio de licencia :</ion-label>
+                    <ion-datetime style="padding-left: 5px; padding-right: 10px;" name="finicio" [(ngModel)]="finicio" [ngModelOptions]="{standalone: true}" display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2020-01-01"
+                        max="2030-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo"></ion-datetime>
+                </ion-item>
+                <ion-item style=" max-height: 35px;">
+                    <ion-label class="ion-text-right" style="width: 150px; max-width: 180px;">Hasta el día :</ion-label>
+                    <ion-datetime style="padding-left: 5px; padding-right: 10px;" name="ffinal" [(ngModel)]="ffinal" [ngModelOptions]="{standalone: true}" display-format="DD.MMM.YYYY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" min="2020-01-01"
+                        max="2026-12-31" place-holder="fecha" cancelText="Cancelar" doneText="Listo"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Comentarios</ion-label>
+                    <ion-textarea name="comentario" [(ngModel)]="comentario" rows="3" cols="20" placeholder="Ingrese aquí sus comentarios..." color="primary"></ion-textarea>
+                </ion-item>
+            </ion-list>
+            <p style="padding: 10px; font-size: 75%;">
+                Esta información será enviada al departamento de Recursos Humanos (RRHH), quien ya debería tener conocimiento del problema. El sistema de salud Chilena, envía un copia electrónica de la licencia médica al empleador. Este trámite es para informar al departamento
+                y resguardar su continuidad laboral.</p>
+            <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar aviso</ion-button>
 
-            </ion-card-content>
-            <ion-progress-bar *ngIf=" enviando " type="indeterminate"></ion-progress-bar>
-        </ion-card>
+        </ion-card-content>
+        <ion-progress-bar *ngIf=" enviando " type="indeterminate"></ion-progress-bar>
+    </ion-card>
 
-        <ion-card class="ion-no-padding">
+    <ion-card class="ion-no-padding">
 
-            <img src="assets/images/licencia2.jpg" alt="x2">
+        <img src="assets/images/licencia2.jpg" alt="x2">
 
-            <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
-                <ion-card-title class="ion-text-center">Avisos previos</ion-card-title>
-            </ion-card-header>
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center">Avisos previos</ion-card-title>
+        </ion-card-header>
 
-            <ion-card-content style="padding: 5px; text-align: justify;">
+        <ion-card-content style="padding: 5px; text-align: justify;">
 
-                <ion-list *ngIf=" avisos " style="font-size: 80%;">
-                    <ion-item *ngFor="let item of avisos" style="font-size: 80%;">
-                        <ion-label class="ion-text-wrap">
-                            <ion-text>
-                                <p>Rango informado</p>
-                                <ion-chip>
-                                    <ion-label>{{ item.sdesde | date:"dd.MMMyyyy" }} al {{ item.shasta | date:"dd.MMMyyyy" }} = {{ item.ndias | number:"1.0-0" }} {{ item.ndias === 1 ? 'día' : 'días' }}</ion-label>
-                                </ion-chip>
-                            </ion-text>
-                            <ion-text color="primary">
-                                <p>Comentario respectivo</p>
-                                <ion-chip color="primary">
-                                    <ion-label>{{ item.comentario }}</ion-label>
-                                </ion-chip>
-                            </ion-text>
-                        </ion-label>
-                    </ion-item>
-                </ion-list>
+            <ion-list *ngIf=" avisos " style="font-size: 80%;">
+                <ion-item *ngFor="let item of avisos" style="font-size: 80%;">
+                    <ion-label class="ion-text-wrap">
+                        <ion-text>
+                            <p>Rango informado</p>
+                            <ion-chip>
+                                <ion-label>{{ item.sdesde | date:"dd.MMMyyyy" }} al {{ item.shasta | date:"dd.MMMyyyy" }} = {{ item.ndias | number:"1.0-0" }} {{ item.ndias === 1 ? 'día' : 'días' }}</ion-label>
+                            </ion-chip>
+                        </ion-text>
+                        <ion-text color="primary">
+                            <p>Comentario respectivo</p>
+                            <ion-chip color="primary">
+                                <ion-label>{{ item.comentario }}</ion-label>
+                            </ion-chip>
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
 
-            </ion-card-content>
+        </ion-card-content>
 
-        </ion-card>
+    </ion-card>
 
-    </ion-content>
+</ion-content>

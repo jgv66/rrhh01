@@ -41,6 +41,13 @@ export class MenuComponent implements OnInit {
       ]
     },
     {
+      title: 'Registro de Asistencia',
+      children: [
+        { title: 'Ingresar o Salir',  url: '/asistencia', icon: 'finger-print'  },
+        { title: 'Sígueme',           url: '/followme',   icon: 'walk' },
+      ]
+    },
+    {
       title: 'Mensajería',
       children: [
         { title: 'Estado de mis solicitudes', url: '/miscom', icon: 'mail'  },

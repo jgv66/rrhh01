@@ -113,4 +113,13 @@
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
     <engine name="ios" spec="~4.5.5" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>Algunas características utilizan Geo-Posición. Se solicitará en todo momento su autorización.</string>
+    </edit-config>
+    <plugin name="cordova-plugin-geolocation" spec="4.0.2">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Para ubicarte" />
+    </plugin>
+    <plugin name="cordova-plugin-nativegeocoder" spec="3.2.2">
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Use geocoder service" />
+    </plugin>
 </widget>

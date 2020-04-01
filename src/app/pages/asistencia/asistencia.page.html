@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Registro de Asistencia</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+
+<ion-content class="animated fadeIn">
+
+    <ion-card class="ion-no-padding">
+
+        <img src="assets/images/asistencia.jpg" alt="x1">
+
+        <ion-card-header>
+            <ion-card-title class="ion-text-center">Acciones</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding-top: 5px; text-align: justify;">
+
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="6">
+                        <ion-button expand="block" (click)="ingreso()" color="success">Ingresar
+                            <ion-icon name="finger-print" slot="end"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="6">
+                        <ion-button expand="block" (click)="salida()" color="danger">Salir
+                            <ion-icon name="log-out" slot="end"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+        </ion-card-content>
+
+    </ion-card>
+
+    <div class="map-wrapper">
+        <div id="map_center">
+            <img src="/assets/icon/center_marker.png" />
+        </div>
+        <div #map id="map"></div>
+    </div>
+
+    <ion-card class="ion-no-padding">
+
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center" style="font-size:145%;">Registro semanal</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding: 5px; text-align: justify;">
+
+            <ion-list *ngIf=" asistencia.length>0 " style="font-size: 80%;">
+                <ion-item *ngFor="let item of asistencia" style="font-size: 80%;">
+                    <ion-label class="ion-text-wrap">
+                        <ion-text>
+                            <p>Ingreso</p>
+                            <ion-chip>
+                                <ion-label>{{ item.fechain | date:"dd.MMMyyyy" }} a las {{ item.horain }}</ion-label>
+                            </ion-chip>
+                        </ion-text>
+                        <ion-text color="primary">
+                            <p>Salida</p>
+                            <ion-chip color="primary">
+                                <ion-label>{{ item.fechaout | date:"dd.MMMyyyy" }} a las {{ item.horaout }}</ion-label>
+                            </ion-chip>
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+
+        </ion-card-content>
+
+    </ion-card>
+
+</ion-content>
