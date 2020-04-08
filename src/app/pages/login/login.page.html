@@ -17,7 +17,7 @@
         <img src="assets/images/login.jpg" alt="imagen del login">
 
         <ion-card-header>
-            <ion-card-title class="ion-text-center">Ingresar a miPortal</ion-card-title>
+            <ion-card-title class="ion-text-center">Ingresar a mi Mandala</ion-card-title>
         </ion-card-header>
 
         <ion-card-content style="padding-top: 5px; text-align: justify;">
@@ -32,18 +32,18 @@
                     <ion-input autocomplete="off" type="password" name="miClave" [(ngModel)]="miClave"></ion-input>
                 </ion-item>
 
-                <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" size="small" share="round" color="mango" (click)="login()">Ingresar</ion-button>
+                <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" size="small" share="round" color="mango" (click)="login()">Validar estos datos e ingresar</ion-button>
 
             </ion-list>
             <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
             <ion-row style="font-size: 70%;margin-top: 10px;">
-                <ion-col size="7">
+                <ion-col size="6" offset="3">
                     <ion-button (click)="iforgot()" fill="clear" size="small" disabled="true">No recuerdo mi clave</ion-button>
                 </ion-col>
-                <ion-col size="5">
-                    <ion-button (click)="signup()" fill="clear" size="small">Es mi primera vez</ion-button>
-                </ion-col>
+                <!-- <ion-col size="6">
+                    <ion-button (click)="signup()" fill="clear" size="small">Quiero cambiar mi clave</ion-button>
+                </ion-col> -->
             </ion-row>
 
         </ion-card-content>

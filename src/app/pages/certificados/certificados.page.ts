@@ -28,14 +28,14 @@ export class CertificadosPage implements OnInit {
   antiguedad() {
     console.log('antiguedad');
     this.cargando = true;
-    this.datos.servicioWEB( '/leerCertAntiguedad', { key: 'CERT-ANTIG', ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerCertAntiguedad', { key: 'CERT-ANTIG', ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( ( dev: any ) => {
             this.cargando = false;
             console.log( dev );
             if ( dev.resultado === 'error' ) {
               this.funciones.msgAlert( dev.datos.code, dev.datos.name );
             } else {
-              // asigna el dato obtenido
+              // 
               this.verPdf( dev );
               //
             }

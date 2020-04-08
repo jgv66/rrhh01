@@ -20,12 +20,13 @@ export class FuncionesService {
     }
   }
 
-  async msgAlert( titulo, texto, subtitulo? ) {
+  async msgAlert( titulo, texto, subtitulo?, color? ) {
     const alert = await this.alertCtrl.create({
       header: titulo,
       subHeader: ( subtitulo ) ? subtitulo : null,
       message: texto,
-      buttons: ['OK']
+      buttons: ['OK'],
+      // cssClass: ( color ) ? 'alertDanger' : 'alertNormal'
     });
     await alert.present();
   }

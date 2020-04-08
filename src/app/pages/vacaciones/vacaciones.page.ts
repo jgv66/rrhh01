@@ -35,7 +35,7 @@ export class VacacionesPage implements OnInit {
 
   cargarDatos( event? ) {
     this.cargando = true;
-    this.datos.servicioWEB( '/leerVacaciones', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerVacaciones', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( (dev: any) => {
             // console.log(dev);
             if ( dev.resultado === 'error' ) {
@@ -48,7 +48,7 @@ export class VacacionesPage implements OnInit {
         });
   }
   detalleVacaciones( event? ) {
-    this.datos.servicioWEB( '/leerDetalleVacaciones', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerDetalleVacaciones', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( (dev: any) => {
             console.log(dev.datos);
             this.cargando = false;
@@ -82,7 +82,7 @@ export class VacacionesPage implements OnInit {
       const hinicio = this.funciones.fechaHumano( xdesde );
       const hfinal  = this.funciones.fechaHumano( xhasta );
       //
-      this.datos.servicioWEB( '/pedirVacaciones', { ficha: this.datos.ficha, desde: hinicio, hasta: hfinal, dias: diasdiff } )
+      this.datos.servicioWEB( '/pedirVacaciones', { ficha: this.datos.ficha, desde: hinicio, hasta: hfinal, dias: diasdiff, empresa: this.datos.idempresa } )
           .subscribe( dev => this.revisaRespuesta( dev ) );
       //
     } else {

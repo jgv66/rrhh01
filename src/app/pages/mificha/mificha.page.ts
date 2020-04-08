@@ -24,7 +24,7 @@ export class MifichaPage implements OnInit {
   }
   ionViewWillEnter() {
     this.cargando = true;
-    this.datos.servicioWEB( '/leerFicha', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerFicha', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( dev => this.revisaRespuesta( dev ) );
   }
 

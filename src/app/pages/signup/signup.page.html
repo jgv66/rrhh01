@@ -1,11 +1,11 @@
 <ion-header>
     <ion-toolbar color="mango">
         <ion-buttons slot="start">
-            <ion-button (click)="salir()">
-                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-            </ion-button>
+            <ion-buttons slot="start">
+                <ion-menu-button autoHide="false"></ion-menu-button>
+            </ion-buttons>
         </ion-buttons>
-        <ion-title>Primera vez en miPortal</ion-title>
+        <ion-title>Acceso a mi Mandala</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -15,7 +15,7 @@
         <img src="assets/images/signup.jpg" alt="x1">
 
         <ion-card-header style="padding: 10px 10px 10px 6px;">
-            <ion-card-title class="ion-text-center">Soy nuevo aqui...</ion-card-title>
+            <ion-card-title class="ion-text-center">Cambiar mi clave...</ion-card-title>
         </ion-card-header>
 
         <ion-card-content style="padding-top: 1px; text-align: justify; padding-left: 10px; padding-right: 10px;">
@@ -26,7 +26,12 @@
                 </ion-item>
 
                 <ion-item>
-                    <ion-label position="stacked">Selecciona una clave (mìnimo 6 caracteres)</ion-label>
+                    <ion-label position="stacked">Mi clave actual</ion-label>
+                    <ion-input autocomplete="off" type="password" name="miClaveActual" [(ngModel)]="miClaveActual"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="stacked">Digitar una nueva clave (mìnimo 6 caracteres)</ion-label>
                     <ion-input autocomplete="off" type="password" name="miClave1" [(ngModel)]="miClave1"></ion-input>
                 </ion-item>
 
@@ -38,7 +43,7 @@
             </ion-list>
             <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
-            <ion-button expand="block" share="round" color="mango" (click)="registrar()" style="padding-top: 10px;">Registrar estos datos en miPortal</ion-button>
+            <ion-button style="font-size: 80%;margin-top: 15px;padding-top: 10px;" expand="block" share="round" color="mango" (click)="registrar()">Registrar estos datos en mi Mandala</ion-button>
 
         </ion-card-content>
 

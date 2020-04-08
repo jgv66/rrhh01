@@ -13,6 +13,7 @@ export class DatosService {
   ficha: string;        // numero de ficha del usuario dentro de softland
   nombre: string;       // nombre del usuario en softland
   email: string;        // email del usuario en softland
+  idempresa: number;    // id de la empresa 1,2,3... 
   logeado = false;
 
   constructor( private http: HttpClient,

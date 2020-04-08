@@ -15,6 +15,7 @@ const routes: Routes =
   { path: 'mislicencias',   loadChildren: () => import('./pages/licencias/licencias.module')      .then(m => m.LicenciasPageModule     ) },
   { path: 'miscom',         loadChildren: () => import('./pages/miscom/miscom.module')            .then(m => m.MiscomPageModule        ) },
   { path: 'mecambie/:caso', loadChildren: () => import('./pages/mecambie/mecambie.module')        .then(m => m.MecambiePageModule      ) },
+  { path: 'cambioclave',    loadChildren: () => import('./pages/signup/signup.module')            .then(m => m.SignupPageModule        ) },
   { path: 'asistencia',     loadChildren: () => import('./pages/asistencia/asistencia.module')    .then(m => m.AsistenciaPageModule    ) },
   { path: 'followme',       loadChildren: () => import('./pages/followme/followme.module')        .then(m => m.FollowmePageModule      ) },
   { path: '**',             redirectTo: 'home', pathMatch: 'full' },

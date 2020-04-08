@@ -32,21 +32,24 @@ export class MenuComponent implements OnInit {
       ]
     },
     {
-      title: 'Me Cambié',
+      title: 'Mis Cambios',
       children: [
         { title: 'De domicilio',          url: '/mecambie/domicilio', icon: 'pin'         },
         { title: 'De número telefónico',  url: '/mecambie/numero',    icon: 'call'        },
         { title: 'De Afp',                url: '/mecambie/afp',       icon: 'trending-up' },
         { title: 'De Isapre',             url: '/mecambie/isapre',    icon: 'nuclear'     },
+        { title: 'De clave a mi Mandala', url: '/cambioclave',        icon: 'key'         },
       ]
     },
+    /*
     {
       title: 'Registro de Asistencia',
       children: [
-        { title: 'Ingresar o Salir',  url: '/asistencia', icon: 'finger-print'  },
-        { title: 'Sígueme',           url: '/followme',   icon: 'walk' },
+        { title: 'Ingresar o Retirarse',  url: '/asistencia', icon: 'finger-print'  },
+        { title: 'Sígueme',               url: '/followme',   icon: 'walk' },
       ]
     },
+    */
     {
       title: 'Mensajería',
       children: [

@@ -19,6 +19,7 @@ export class AnticipoPage implements OnInit {
                private router: Router ) { }
 
   ngOnInit() {
+    console.log(this.datos.idempresa);
     if ( this.datos.ficha === undefined ) {
       this.router.navigate(['/home']);
     }

@@ -114,7 +114,7 @@
     </plugin>
     <engine name="ios" spec="~4.5.5" />
     <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-        <string>Algunas características utilizan Geo-Posición. Se solicitará en todo momento su autorización.</string>
+        <string>Algunas características utilizan Geo-Posición. Se solicitará su autorización.</string>
     </edit-config>
     <plugin name="cordova-plugin-geolocation" spec="4.0.2">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Para ubicarte" />

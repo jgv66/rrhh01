@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DatosService } from 'src/app/services/datos.service';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { DatosService } from 'src/app/services/datos.service';
 import { FuncionesService } from 'src/app/services/funciones.service';
-
 
 @Component({
   selector: 'app-signup',
@@ -14,25 +14,25 @@ export class SignupPage implements OnInit {
   miRut    = '';
   miClave1 = '';
   miClave2 = '';
+  miClaveActual = '';
   cargando = false;
 
   constructor( public datos: DatosService,
-               private modalCtrl: ModalController,
+               private router: Router,
                private funciones: FuncionesService) { }
 
   ngOnInit() {
-  }
-
-  salir() {
-    this.modalCtrl.dismiss();
+    if ( this.datos.ficha === undefined ) {
+      this.router.navigate(['/home']);
+    }
   }
 
   registrar() {
-    if ( this.miClave1 === '' || this.miClave1 !== this.miClave2 ) {
+    if ( this.miClave1 === '' || this.miClave1 !== this.miClave2 || this.miClaveActual === '' ) {
       this.funciones.msgAlert( 'ATENCION', 'No puede validar claves vacías o distintas', 'Corregir y reintentar' );
     } else {
       this.cargando = true;
-      this.datos.servicioWEB( '/newUser', { rut: this.miRut, clave: this.miClave1 } )
+      this.datos.servicioWEB( '/cambiarClave', { rut: this.miRut, claveActual: this.miClaveActual, clave: this.miClave1 } )
           .subscribe( dev => this.revisaRespuesta( dev ) );
     }
 
@@ -43,7 +43,7 @@ export class SignupPage implements OnInit {
       this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
     } else if ( dev.datos[0].resultado ) {
       this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
-      this.modalCtrl.dismiss({ rut: this.miRut });
+      this.router.navigate(['/home']);
     }
   }
 

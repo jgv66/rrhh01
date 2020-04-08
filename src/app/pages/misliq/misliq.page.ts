@@ -29,27 +29,30 @@ export class MisliqPage implements OnInit {
   }
   ionViewWillEnter() {
     this.cargando = true;
-    this.datos.servicioWEB( '/liquidaciones', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/liquidaciones', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( (dev: any) => {
-            // console.log(dev);
+            console.log(dev);
             this.cargando = false;
             if ( dev.resultado === 'error' ) {
-              this.funciones.msgAlert( 'ATENCION', dev[0].datos );
+              this.funciones.msgAlert( 'ATENCION', 'No existen liquidaciones para rescatar y deslegar.' );
             } else {
               this.liquidaciones = dev.datos;
             }
+        },
+        (error) => {
+          this.funciones.msgAlert( 'ATENCION', error );
         });
   }
 
   buscarPDF( item ) {
     item.descargando = true;
-    this.datos.servicioWEB( '/leerPDFLiquidacion', { ficha: this.datos.ficha, idpdf: item.id_pdf, filename: item.filename } )
+    this.datos.servicioWEB( '/leerPDFLiquidacion', { ficha: this.datos.ficha, idpdf: item.id_pdf, filename: item.filename, empresa: this.datos.idempresa } )
         .subscribe( dev => { item.descargando = false;
                              this.revisaRespuesta( dev, item.periodo ); } );
   }
   revisaRespuesta( dev, periodo ) {
     this.cargando = false;
-    console.log( dev );
+    // console.log( dev );
     if ( dev.resultado === 'error' ) {
       this.funciones.msgAlert( 'ATENCION', dev[0].datos );
     } else {

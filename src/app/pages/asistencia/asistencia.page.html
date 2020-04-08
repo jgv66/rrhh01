@@ -28,7 +28,7 @@
                         </ion-button>
                     </ion-col>
                     <ion-col size="6">
-                        <ion-button expand="block" (click)="salida()" color="danger">Salir
+                        <ion-button expand="block" (click)="salida()" color="danger">Retirarse
                             <ion-icon name="log-out" slot="end"></ion-icon>
                         </ion-button>
                     </ion-col>
@@ -39,12 +39,24 @@
 
     </ion-card>
 
-    <div class="map-wrapper">
-        <div id="map_center">
-            <img src="/assets/icon/center_marker.png" />
-        </div>
-        <div #map id="map"></div>
-    </div>
+    <ion-card class="ion-no-padding">
+
+        <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
+            <ion-card-title class="ion-text-center" style="font-size:145%;">Ubicación actual</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="padding: 5px; text-align: justify;">
+
+            <div class="map-wrapper">
+                <div id="map_center">
+                    <img src="/assets/icon/center_marker.png" />
+                </div>
+                <div #map id="map"></div>
+            </div>
+
+        </ion-card-content>
+
+    </ion-card>
 
     <ion-card class="ion-no-padding">
 

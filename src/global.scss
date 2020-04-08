@@ -1,20 +1,21 @@
-
 /* Core CSS required for Ionic components to work properly */
+
 @import "~@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
+
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
+
 @import "~@ionic/angular/css/padding.css";
 @import "~@ionic/angular/css/float-elements.css";
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
-
 // body {
 //   background: url('src/assets/pattern.png');
 // }
@@ -22,14 +23,22 @@
 //   --background: url('src/assets/pattern.png') no-repeat;
 //   background-size: cover;
 // }
-
 .button {
     text-transform: none!important;
-}  
+}
 
+// .alertDanger {
+//     color: red;
+//     button {
+//         color: red;
+//     }
+// }
+// .alertNormal {
+//     background-color: white;
+// }
 ion-toast {
     --max-width: 75%;
-    --background: var( --ion-color-danger-tint );
+    --background: var( --ion-color-danger-tint);
     text-align: center;
     /* nuevos*/
     --border-radius: 20px;
@@ -37,7 +46,8 @@ ion-toast {
     --border-style: single;
 }
 
-.rojo span, .rojo .sc-ion-action-sheet-md {
+.rojo span,
+.rojo .sc-ion-action-sheet-md {
     color: red !important;
 }
 
@@ -55,25 +65,23 @@ ion-toast {
 
 @-webkit-keyframes fadeIn {
     from {
-      opacity: 0;
+        opacity: 0;
     }
-  
     to {
-      opacity: 1;
+        opacity: 1;
     }
-  }
-  
-  @keyframes fadeIn {
+}
+
+@keyframes fadeIn {
     from {
-      opacity: 0;
+        opacity: 0;
     }
-  
     to {
-      opacity: 1;
+        opacity: 1;
     }
-  }
-  
-  .fadeIn {
+}
+
+.fadeIn {
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
-  } 
+}
