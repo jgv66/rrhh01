@@ -33,13 +33,15 @@ export class LicenciasPage implements OnInit {
   cargarDatos( event? ) {
     // this.cargando = true;
     this.avisos = undefined;
-    this.datos.servicioWEB( '/leerLicencias', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerLicencias', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( (dev: any) => {
             console.log(dev);
             this.cargando = false;
             if ( dev.resultado === 'error' ) {
-              // this.funciones.msgAlert( 'ATENCION', 'Error al consultar licencias previas' ); //dev.datos.originalError.info.message
-            } else {
+              this.funciones.msgAlert( 'ATENCION', 'Error al consultar licencias previas' ); //dev.datos.originalError.info.message
+            } else if ( dev.resultado === 'nodata' ) {
+              this.funciones.msgAlert( 'ATENCION', 'No existen datos de licencias previas.' );
+            } else if ( dev.resultado === 'ok' ) {
               this.avisos = dev.datos[0];
               if ( event ) {
                 event.target.complete();
@@ -71,7 +73,7 @@ export class LicenciasPage implements OnInit {
       const hinicio = this.funciones.fechaHumano( xdesde );
       const hfinal  = this.funciones.fechaHumano( xhasta );
       //
-      this.datos.servicioWEB( '/informarLicencia', { ficha: this.datos.ficha, desde: hinicio, hasta: hfinal, dias: diasdiff, comentario: this.comentario } )
+      this.datos.servicioWEB( '/informarLicencia', { ficha: this.datos.ficha, desde: hinicio, hasta: hfinal, dias: diasdiff, comentario: this.comentario, empresa: this.datos.idempresa } )
           .subscribe( dev => this.revisaRespuesta( dev ) );
       //
     } else {

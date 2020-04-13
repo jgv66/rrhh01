@@ -37,7 +37,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 publicpath = path.resolve(__dirname, 'public');
 app.use('/static', express.static(publicpath));
 CARPETA_PDF = publicpath + '/pdf/';
-FACTURACION = publicpath + '/facturacion/concurrencia.json'; // archivo usado para registrar concurrencia de usuarios
 
 app.set('port', 3070);
 var server = app.listen(3070, function() {
@@ -66,9 +65,9 @@ let getUsuarios = () => {
             });
     });
 };
-// se asiganan a la matriz usuarios
+// asiganados a la variable
 getUsuarios().then(usrs => { usuarios = usrs; });
-// buscar empresa en la matriz de usuarios
+// buscar enpresa en la matriz de usuarios
 let getEmpresa = (rut) => {
     //
     return new Promise((resolve, reject) => {
@@ -87,26 +86,7 @@ let getEmpresa = (rut) => {
         }
     });
 };
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> concurrencia de usuarios y su actividad
-let registraActividad = (empresa, rut, actividad) => {
-    //
-    const fecha = new Date();
-    const dia = ('0' + fecha.getDate().toString()).slice(-2);
-    const mes = ('0' + (fecha.getMonth() + 1).toString()).slice(-2);
-    const ano = fecha.getFullYear().toString();
-    const hora = ('0' + fecha.getHours().toString()).slice(-2);
-    const minu = ('0' + fecha.getMinutes().toString()).slice(-2);
-    //
-    var reg = `{ empresa: ${empresa}, rut: ${ rut }, fecha: ${ dia+'/'+mes+'/'+ano }, hora: ${ hora+':'+minu }, actividad: ${actividad} },\n`;
-    //
-    fs.appendFile(FACTURACION, reg,
-        (err) => {
-            if (err) {
-                console.log('error al grabar concurrencia -> ', err);
-            }
-        });
-    //    
-};
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> web-services
 app.post('/validarUser',
     function(req, res, usuarios) {
@@ -118,9 +98,6 @@ app.post('/validarUser',
                         .then(function(data) {
                             //
                             if (data.resultado === 'ok') {
-                                // concurrencia
-                                registraActividad(empresa, req.body.rut, 'ingreso al sistema');
-                                //
                                 res.json({ resultado: 'ok', datos: data.datos });
                             } else {
                                 res.json({ resultado: 'error', datos: 'Usuario no existe. Corrija o verifique, luego reintente.' });
@@ -145,9 +122,6 @@ app.post('/cambiarClave',
                         .then(function(data) {
                             //
                             if (data.resultado === 'ok') {
-                                // concurrencia
-                                registraActividad(empresa, req.body.rut, 'cambiarClave()');
-                                //
                                 res.json({ resultado: 'ok', datos: data.datos });
                             } else {
                                 res.json({ resultado: 'error', datos: data.datos });
@@ -170,9 +144,6 @@ app.post('/leerFicha',
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerFicha()');
-                    //
                     res.json({ resultado: 'ok', datos: data.datos });
                 } else {
                     res.json({ resultado: 'error', datos: data.datos });
@@ -192,9 +163,6 @@ app.post('/liquidaciones',
                 //
                 // console.log(data);
                 if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'liquidaciones()');
-                    //
                     res.json({ resultado: 'ok', datos: data.datos });
                 } else {
                     res.json({ resultado: 'error', datos: data.datos });
@@ -216,9 +184,6 @@ app.post('/leerPDFLiquidacion',
                 var fullpath = path.join(CARPETA_PDF, filename);
                 //
                 var base64_pdf = base642pdf.base64Decode(pdf, fullpath);
-                // concurrencia
-                registraActividad(req.body.empresa, req.body.ficha, 'leerPDFLiquidacion() -> ' + filename);
-                //
                 res.json({ resultado: 'ok', datos: filename, base64: base64_pdf });
                 //
             })
@@ -235,9 +200,6 @@ app.post('/leerVacaciones',
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerVacaciones()');
-                    //
                     res.json({ resultado: 'ok', datos: data.datos });
                 } else {
                     res.json({ resultado: 'error', datos: data.datos });
@@ -255,9 +217,6 @@ app.post('/leerDetalleVacaciones',
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerDetalleVacaciones()');
-                    //                    
                     res.json({ resultado: 'ok', datos: data.datos });
                 } else {
                     res.json({ resultado: 'error', datos: data.datos });
@@ -276,12 +235,15 @@ app.post('/leerCertAntiguedad',
         //
         reg.getBase64Cert(sql, req.body)
             .then(function(data) {
-                //
+
                 var filenamePDF = `cert_antig_${req.body.ficha.trim()}.pdf`;
                 var filenameHTM = `cert_antig_${req.body.ficha.trim()}.html`;
                 var fullpathPDF = path.join(CARPETA_PDF, filenamePDF);
                 var fullpathHTM = path.join(CARPETA_PDF, filenameHTM);
-                //
+
+                // console.log('data', data);
+                // console.log('data.datos', data.datos);
+
                 contruyeHTML(data.datos, fullpathHTM, req.body.empresa)
                     .then(htmlContent => {
                         console.log('HTML creado');
@@ -300,9 +262,6 @@ app.post('/leerCertAntiguedad',
                                         console.error('No se pudo generar el PDF ', fullpathPDF, err);
                                         res.status(500).json({ resultado: 'error', datos: err });
                                     } else {
-                                        // concurrencia
-                                        registraActividad(req.body.empresa, req.body.ficha, 'leerCertAntiguedad() -> ' + filenamePDF);
-                                        //                    
                                         res.status(200).json({ resultado: 'ok', datos: filenamePDF, base64: fullpathPDF });
                                     }
                                 }
@@ -414,9 +373,7 @@ app.post('/enviarPDF',
                 //
                 reg.guardaSolicitud(req.body.empresa, sql, req.body.codigo, 'PDF', 'PDF: ' + req.body.periodo, req.body.to, req.body.cc, true)
                     .then(x => null);
-                // concurrencia
-                registraActividad(req.body.empresa, req.body.ficha, 'enviarPDF(' + req.body.filename + ') -> ' + req.body.to);
-                //                    
+                //
                 res.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + req.body.to });
                 //
             }
@@ -428,6 +385,7 @@ app.post('/pedirAnticipo',
         console.log('/pedirAnticipo', req.body);
         reg.leerFicha(sql, req.body)
             .then(function(data) {
+                // console.log('leerFicha->', data);
                 enviarCorreoAnticipo(req, res, data.datos);
             })
             .catch(function(err) {
@@ -484,9 +442,7 @@ enviarCorreoAnticipo = function(req, res, data) {
             //
             reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Anticipo', 'anticipo: ' + req.body.monto.toString() + ', para el dia ' + req.body.fecha, cTo, cCc)
                 .then(x => null);
-            // concurrencia
-            registraActividad(req.body.empresa, req.body.ficha, 'pedirAnticipo( ' + 'Ant: ' + req.body.monto.toString() + ', dia ' + req.body.fecha + ' ) -> ' + cTo);
-            //                    
+            //
             res.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + cTo });
             //
         }
@@ -496,15 +452,13 @@ enviarCorreoAnticipo = function(req, res, data) {
 app.post('/leerMensajes',
     function(req, res) {
         //
-        console.log("/leerMensajes ", req.body);
-        reg.leermensajes(sql, req.body)
+        console.log("/leerMensajes ", data);
+        reg.leermensajes(sql, req.body.ficha)
             .then(function(data) {
                 //
-                if (data.resultado === 'ok' || data.resultado === 'nodata') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerMensajes()');
-                    //                    
-                    res.json({ resultado: data.resultado, datos: data.datos });
+                // console.log(data);
+                if (data.resultado === 'ok') {
+                    res.json({ resultado: 'ok', datos: data.datos });
                 } else {
                     res.json({ resultado: 'error', datos: data.datos });
                 }
@@ -514,6 +468,7 @@ app.post('/leerMensajes',
                 res.json({ resultado: 'error', datos: error });
             });
     });
+
 app.post('/cierraMensaje',
     function(req, res) {
         //
@@ -522,9 +477,6 @@ app.post('/cierraMensaje',
                 //
                 // console.log(data);
                 if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'cierraMensaje()');
-                    //                       
                     res.json({ resultado: 'ok', datos: data.datos });
                 } else {
                     res.json({ resultado: 'error', datos: data.datos });
@@ -536,280 +488,14 @@ app.post('/cierraMensaje',
             });
     });
 
-app.post('/leerRegiones',
-    function(req, res) {
-        //
-        reg.regiones(sql, req.body)
-            .then(function(data) {
-                //
-                if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerRegiones()');
-                    //
-                    res.json({ resultado: 'ok', datos: data.datos });
-                } else {
-                    res.json({ resultado: 'error', datos: data.datos });
-                }
-            })
-            .catch(function(err) {
-                console.log("/leerRegiones ", err);
-                res.json({ resultado: 'error', datos: error });
-            });
-    });
-app.post('/leerCiudades',
-    function(req, res) {
-        //
-        reg.ciudades(sql, req.body)
-            .then(function(data) {
-                //
-                if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerCiudades()');
-                    //
-                    res.json({ resultado: 'ok', datos: data.datos });
-                } else {
-                    res.json({ resultado: 'error', datos: data.datos });
-                }
-            })
-            .catch(function(err) {
-                console.log("/leerCiudades ", err);
-                res.json({ resultado: 'error', datos: error });
-            });
-    });
-app.post('/leerComunas',
-    function(req, res) {
-        //
-        reg.comunas(sql, req.body)
-            .then(function(data) {
-                //
-                if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerComunas()');
-                    //
-                    res.json({ resultado: 'ok', datos: data.datos });
-                } else {
-                    res.json({ resultado: 'error', datos: data.datos });
-                }
-            })
-            .catch(function(err) {
-                console.log("/leerComunas ", err);
-                res.json({ resultado: 'error', datos: error });
-            });
-    });
-app.post('/leerIsapres',
-    function(req, res) {
-        //
-        reg.isapres(sql)
-            .then(function(data) {
-                //
-                if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerIsapres()');
-                    //
-                    res.json({ resultado: 'ok', datos: data.datos });
-                } else {
-                    res.json({ resultado: 'error', datos: data.datos });
-                }
-            })
-            .catch(function(err) {
-                console.log("/leerIsapres ", err);
-                res.json({ resultado: 'error', datos: error });
-            });
-    });
-app.post('/leerAfps',
-    function(req, res) {
-        //
-        reg.afps(sql, req.body)
-            .then(function(data) {
-                //
-                if (data.resultado === 'ok') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerAfps()');
-                    //
-                    res.json({ resultado: 'ok', datos: data.datos });
-                } else {
-                    res.json({ resultado: 'error', datos: data.datos });
-                }
-            })
-            .catch(function(err) {
-                console.log("/leerAfps ", err);
-                res.json({ resultado: 'error', datos: error });
-            });
-    });
-//
-app.post('/pedirVacaciones',
-    function(req, res) {
-        console.log('/pedirVacaciones', req.body);
-        reg.leerFicha(sql, req.body)
-            .then(
-                function(data) {
-                    enviarCorreoVacaciones(req, res, data.datos);
-                })
-            .catch(
-                function(err) {
-                    console.log("/pedirVacaciones ", err);
-                    res.json({ resultado: 'error', datos: err });
-                });
-    });
-enviarCorreoVacaciones = function(req, response, data) {
-    //
-    sender = htmlCorreos.sender;
-    psswrd = htmlCorreos.sender_psw;
-    //
-    cTo = archXemp[req.body.empresa].vacaciones;
-    cCc = archXemp[req.body.empresa].vacaciones_cc;
-    cSu = 'Solicitud de Vacaciones : ' + data[0].nombres;
-    //
-    var delBody = htmlCorreos.default_header;
-    delBody = delBody.replace('##default_body##', htmlCorreos.vacaciones_body);
-    delBody = delBody.replace('##ficha##', data[0].codigo);
-    delBody = delBody.replace('##rut##', data[0].rut);
-    delBody = delBody.replace('##nombres##', data[0].nombres);
-    delBody = delBody.replace('##desde##', req.body.desde);
-    delBody = delBody.replace('##hasta##', req.body.hasta);
-    delBody = delBody.replace('##dias##', req.body.dias);
-    // cuando envío por gmail
-    // var transporter = nodemailer.createTransport({service: 'Gmail', auth: {user: htmlCorreos.sender, pass: htmlCorreos.sender_psw } });
-    // datos del enviador, original
-    var transporter = nodemailer.createTransport({
-        host: "vps-150899.gloryeta.cl",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: htmlCorreos.sender,
-            pass: htmlCorreos.sender_psw
-        }
-    }); // opciones del correo
-    var mailOptions = {
-        from: { name: "miMandala", address: htmlCorreos.sender },
-        to: cTo,
-        cc: cCc,
-        subject: cSu,
-        html: delBody
-    };
-    // enviar el correo
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log('error en sendmail->', error);
-            response.json({ resultado: 'error', mensaje: error.message });
-        } else {
-            //
-            console.log("Email vacaciones a -> ", cTo);
-            console.log("Email vacaciones con copia -> ", cCc);
-            //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Vacaciones', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta, cTo, cCc)
-                .then(x => null);
-            // concurrencia
-            registraActividad(req.body.empresa, req.body.ficha, 'pedirVacaciones( desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ' ) -> ' + cTo);
-            //                    
-            response.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + cTo });
-            //
-        }
-    });
-};
-
-app.post('/leerLicencias',
-    function(req, res) {
-        //
-        console.log('/leerLicencias');
-        reg.licenciasMedicas(sql, req.body)
-            .then(function(data) {
-                console.log("/leerLicencias ", data);
-                if (data.resultado === 'ok' || data.resultado === 'nodata') {
-                    // concurrencia
-                    registraActividad(req.body.empresa, req.body.ficha, 'leerLicencias()');
-                    //                    
-                    res.json({ resultado: data.resultado, datos: data.datos });
-                } else {
-                    console.log("/leerLicencias ", data.datos);
-                    res.json({ resultado: 'error', datos: data.datos });
-                }
-            })
-            .catch(function(err) {
-                console.log("/leerLicencias ", err);
-                res.json({ resultado: 'error', datos: error });
-            });
-    });
-app.post('/informarLicencia',
-    function(req, res) {
-        // 
-        reg.leerFicha(sql, req.body)
-            .then(
-                function(data) {
-                    enviarCorreoLicencia(req, res, data.datos);
-                })
-            .catch(
-                function(err) {
-                    console.log("/informarLicencia ", err);
-                    res.json({ resultado: 'error', datos: err });
-                });
-    });
-enviarCorreoLicencia = function(req, response, data) {
-    //
-    sender = htmlCorreos.sender;
-    psswrd = htmlCorreos.sender_psw;
-    //
-    cTo = archXemp[req.body.empresa].licencias;
-    cCc = archXemp[req.body.empresa].licencias_cc;
-    cSu = 'Licencia médica : ' + data[0].nombres;
-    //
-    var delBody = htmlCorreos.default_header;
-    delBody = delBody.replace('##default_body##', htmlCorreos.licencias_body);
-    delBody = delBody.replace('##ficha##', data[0].codigo);
-    delBody = delBody.replace('##rut##', data[0].rut);
-    delBody = delBody.replace('##nombres##', data[0].nombres);
-    delBody = delBody.replace('##desde##', req.body.desde);
-    delBody = delBody.replace('##hasta##', req.body.hasta);
-    delBody = delBody.replace('##dias##', req.body.dias);
-    delBody = delBody.replace('##comentario##', req.body.comentario);
-    // cuando envío por gmail
-    // var transporter = nodemailer.createTransport({service: 'Gmail', auth: {user: htmlCorreos.sender, pass: htmlCorreos.sender_psw } });
-    // datos del enviador, original
-    var transporter = nodemailer.createTransport({
-        host: "vps-150899.gloryeta.cl",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: htmlCorreos.sender,
-            pass: htmlCorreos.sender_psw
-        }
-    });
-    // opciones del correo
-    var mailOptions = {
-        from: { name: "miMandala", address: htmlCorreos.sender },
-        to: cTo,
-        cc: cCc,
-        subject: cSu,
-        html: delBody
-    };
-    // enviar el correo
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log('error en sendmail->', error);
-            response.json({ resultado: 'error', mensaje: error.message });
-        } else {
-            //
-            console.log("Email licencia a -> ", cTo);
-            console.log("Email licencia con copia -> ", cCc);
-            //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Licencia médica', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ', comentarios: ' + req.body.comentario, cTo, cCc)
-                .then(x => null);
-            // concurrencia
-            registraActividad(req.body.empresa, req.body.ficha, 'informarLicencia( desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ' ) -> ' + cTo);
-            //                    
-            response.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + cTo });
-            //
-        }
-    });
-};
-
 app.post('/cambiarDatosFicha',
     function(req, res) {
         //
         console.log(req.body);
         reg.leerFicha(sql, req.body)
             .then(function(data) {
-                enviarCorreoCambio(req, res, data.datos);
+                console.log("/cambiarDatosFicha ", data[0]);
+                enviarCorreoCambio(req, res, data);
             })
             .catch(function(err) {
                 console.log("/cambiarDatosFicha ", err);
@@ -821,8 +507,8 @@ enviarCorreoCambio = function(req, res, data) {
     sender = htmlCorreos.sender;
     psswrd = htmlCorreos.sender_psw;
     //
-    cTo = archXemp[req.body.empresa].cambios;
-    cCc = archXemp[req.body.empresa].cambios_cc;
+    cTo = htmlCorreos.cambios;
+    cCc = htmlCorreos.cambios_cc;
     cSu = 'Solicitud de Actualizacion de datos personales : ' + data[0].nombres;
     //
     var delBody = htmlCorreos.default_header;
@@ -870,12 +556,238 @@ enviarCorreoCambio = function(req, res, data) {
             console.log("Email cambio a -> ", cTo);
             console.log("Email cambio con copia -> ", cCc);
             //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Cambio : ' + req.body.caso, 'Cambiar: ' + req.body.dato1 + (req.body.dato2 ? ', ' + req.body.dato2 : '') + (req.body.dato3 ? ', ' + req.body.dato3 : ''), cTo, cCc)
-                .then(x => null);
-            // concurrencia
-            registraActividad(req.body.empresa, req.body.ficha, 'enviarCorreoCambio( ' + req.body.caso + ' )');
-            //                    
             res.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + cTo });
+            //
+            reg.guardaSolicitud(sql, data[0].codigo, 'Cambio : ' + req.body.caso, 'Cambiar: ' + req.body.dato1 + (req.body.dato2 ? ', ' + req.body.dato2 : '') + (req.body.dato3 ? ', ' + req.body.dato3 : ''), cTo, cCc)
+                .then(x => null);
+        }
+    });
+};
+
+app.post('/leerRegiones',
+    function(req, res) {
+        //
+        reg.regiones(sql)
+            .then(function(data) {
+                // console.log("/leerRegiones ",data);
+                res.json({ resultado: 'ok', datos: data });
+            })
+            .catch(function(err) {
+                console.log("/leerRegiones ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/leerCiudades',
+    function(req, res) {
+        //
+        reg.ciudades(sql, req.body.region)
+            .then(function(data) {
+                // console.log("/leerCiudades ",data);
+                res.json({ resultado: 'ok', datos: data });
+            })
+            .catch(function(err) {
+                console.log("/leerCiudades ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/leerComunas',
+    function(req, res) {
+        //
+        reg.comunas(sql, req.body.region)
+            .then(function(data) {
+                // console.log("/leerComunas ",data);
+                res.json({ resultado: 'ok', datos: data });
+            })
+            .catch(function(err) {
+                console.log("/leerComunas ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/leerIsapres',
+    function(req, res) {
+        //
+        reg.isapres(sql)
+            .then(function(data) {
+                console.log("/leerIsapres ", data);
+                res.json({ resultado: 'ok', datos: data });
+            })
+            .catch(function(err) {
+                console.log("/leerIsapres ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/leerAfps',
+    function(req, res) {
+        //
+        reg.afps(sql)
+            .then(function(data) {
+                console.log("/leerAfps ", data);
+                res.json({ resultado: 'ok', datos: data });
+            })
+            .catch(function(err) {
+                console.log("/leerAfps ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+//
+app.post('/pedirVacaciones',
+    function(req, res) {
+        console.log('/pedirVacaciones', req.body);
+        reg.leerFicha(sql, req.body)
+            .then(
+                function(data) {
+                    console.log('enviar correo...');
+                    enviarCorreoVacaciones(req, res, data);
+                })
+            .catch(
+                function(err) {
+                    console.log("/pedirVacaciones ", err);
+                    res.json({ resultado: 'error', datos: err });
+                });
+    });
+enviarCorreoVacaciones = function(req, response, data) {
+    //
+    sender = htmlCorreos.sender;
+    psswrd = htmlCorreos.sender_psw;
+    //
+    cTo = htmlCorreos.vacaciones;
+    cCc = htmlCorreos.vacaciones_cc;
+    cSu = 'Solicitud de Vacaciones : ' + data[0].nombres;
+    //
+    var delBody = htmlCorreos.default_header;
+    delBody = delBody.replace('##default_body##', htmlCorreos.vacaciones_body);
+    delBody = delBody.replace('##ficha##', data[0].codigo);
+    delBody = delBody.replace('##rut##', data[0].rut);
+    delBody = delBody.replace('##nombres##', data[0].nombres);
+    delBody = delBody.replace('##desde##', req.body.desde);
+    delBody = delBody.replace('##hasta##', req.body.hasta);
+    delBody = delBody.replace('##dias##', req.body.dias);
+    // cuando envío por gmail
+    // var transporter = nodemailer.createTransport({service: 'Gmail', auth: {user: htmlCorreos.sender, pass: htmlCorreos.sender_psw } });
+    // datos del enviador, original
+    var transporter = nodemailer.createTransport({
+        host: "vps-150899.gloryeta.cl",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: htmlCorreos.sender,
+            pass: htmlCorreos.sender_psw
+        }
+    }); // opciones del correo
+    var mailOptions = {
+        from: { name: "miMandala", address: htmlCorreos.sender },
+        to: cTo,
+        cc: cCc,
+        subject: cSu,
+        html: delBody
+    };
+    // enviar el correo
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log('error en sendmail->', error);
+            response.json({ resultado: 'error', mensaje: error.message });
+        } else {
+            //
+            console.log("Email vacaciones a -> ", cTo);
+            console.log("Email vacaciones con copia -> ", cCc);
+            //
+            response.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + cTo });
+            //
+            reg.guardaSolicitud(sql, data[0].codigo, 'Vacaciones', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta, cTo, cCc)
+                .then(x => null);
+            //        
+        }
+    });
+};
+
+app.post('/leerLicencias',
+    function(req, res) {
+        //
+        console.log('/leerLicencias');
+        reg.licenciasMedicas(sql, req.body.ficha)
+            .then(function(data) {
+                console.log("/leerLicencias ", data);
+                if (data.ok) {
+                    res.json({ resultado: 'ok', datos: data.datos });
+                } else {
+                    console.log("/leerLicencias ", data.datos);
+                    res.json({ resultado: 'error', datos: data.datos });
+                }
+            })
+            .catch(function(err) {
+                console.log("/leerLicencias ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+
+app.post('/informarLicencia',
+    function(req, res) {
+        console.log('/informarLicencia', req.body);
+        reg.leerFicha(sql, req.body)
+            .then(
+                function(data) {
+                    console.log('enviar correo...');
+                    enviarCorreoLicencia(req, res, data);
+                })
+            .catch(
+                function(err) {
+                    console.log("/informarLicencia ", err);
+                    res.json({ resultado: 'error', datos: err });
+                });
+    });
+enviarCorreoLicencia = function(req, response, data) {
+    //
+    sender = htmlCorreos.sender;
+    psswrd = htmlCorreos.sender_psw;
+    //
+    cTo = htmlCorreos.licencias;
+    cCc = htmlCorreos.licencias_cc;
+    cSu = 'Licencia médica : ' + data[0].nombres;
+    //
+    var delBody = htmlCorreos.default_header;
+    delBody = delBody.replace('##default_body##', htmlCorreos.licencias_body);
+    delBody = delBody.replace('##ficha##', data[0].codigo);
+    delBody = delBody.replace('##rut##', data[0].rut);
+    delBody = delBody.replace('##nombres##', data[0].nombres);
+    delBody = delBody.replace('##desde##', req.body.desde);
+    delBody = delBody.replace('##hasta##', req.body.hasta);
+    delBody = delBody.replace('##dias##', req.body.dias);
+    delBody = delBody.replace('##comentario##', req.body.comentario);
+    // cuando envío por gmail
+    // var transporter = nodemailer.createTransport({service: 'Gmail', auth: {user: htmlCorreos.sender, pass: htmlCorreos.sender_psw } });
+    // datos del enviador, original
+    var transporter = nodemailer.createTransport({
+        host: "vps-150899.gloryeta.cl",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: htmlCorreos.sender,
+            pass: htmlCorreos.sender_psw
+        }
+    });
+    // opciones del correo
+    var mailOptions = {
+        from: { name: "miMandala", address: htmlCorreos.sender },
+        to: cTo,
+        cc: cCc,
+        subject: cSu,
+        html: delBody
+    };
+    // enviar el correo
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log('error en sendmail->', error);
+            response.json({ resultado: 'error', mensaje: error.message });
+        } else {
+            //
+            console.log("Email licencia a -> ", cTo);
+            console.log("Email licencia con copia -> ", cCc);
+            //
+            response.json({ resultado: 'ok', mensaje: 'Correo ya se envió a ' + cTo });
+            //
+            reg.guardaSolicitud(sql, data[0].codigo, 'Licencia médica', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ', comentarios: ' + req.body.comentario, cTo, cCc)
+                .then(x => null);
+            //        
         }
     });
 };

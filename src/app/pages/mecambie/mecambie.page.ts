@@ -42,7 +42,7 @@ export class MecambiePage implements OnInit {
   }
   ionViewWillEnter() {
     this.cargando = true;
-    this.datos.servicioWEB( '/leerFicha', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerFicha', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( dev => this.revisaRespuesta( dev ) );
     if ( this.caso === 'domicilio' ) {
       this.lasRegiones();
@@ -50,7 +50,7 @@ export class MecambiePage implements OnInit {
       this.lasAfps();
     } else if ( this.caso === 'isapre' ) {
       this.lasIsapres();
-    } 
+    }
   }
   revisaRespuesta( dev ) {
     this.cargando = false;
@@ -63,7 +63,7 @@ export class MecambiePage implements OnInit {
   }
 
   lasRegiones() {
-    this.datos.servicioWEB( '/leerRegiones' )
+    this.datos.servicioWEB( '/leerRegiones', { empresa: this.datos.idempresa } )
     .subscribe( dev => this.revisaRegiones( dev ) );
   }
   revisaRegiones( dev ) {
@@ -74,7 +74,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasCiudades() {
-    this.datos.servicioWEB( '/leerCiudades', { region: this.region.toString() } )
+    this.datos.servicioWEB( '/leerCiudades', { region: this.region.toString(), empresa: this.datos.idempresa } )
     .subscribe( dev => this.revisaCiudades( dev ) );
   }
   revisaCiudades( dev ) {
@@ -85,7 +85,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasComunas() {
-    this.datos.servicioWEB( '/leerComunas', { region: this.region } )
+    this.datos.servicioWEB( '/leerComunas', { region: this.region, empresa: this.datos.idempresa } )
     .subscribe( dev => this.revisaComunas( dev ) );
   }
   revisaComunas( dev ) {
@@ -96,7 +96,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasIsapres() {
-    this.datos.servicioWEB( '/leerIsapres' )
+    this.datos.servicioWEB( '/leerIsapres', { empresa: this.datos.idempresa } )
     .subscribe( dev => this.revisaIsapres( dev ) );
   }
   revisaIsapres( dev ) {
@@ -107,7 +107,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasAfps() {
-    this.datos.servicioWEB( '/leerAfps' )
+    this.datos.servicioWEB( '/leerAfps', { empresa: this.datos.idempresa }  )
     .subscribe( dev => this.revisaAfps( dev ) );
   }
   revisaAfps( dev ) {
@@ -126,6 +126,7 @@ export class MecambiePage implements OnInit {
     this.cargando = true;
     this.datos.servicioWEB( '/cambiarDatosFicha',
                             { ficha: this.datos.ficha,
+                              empresa: this.datos.idempresa,
                               caso:  this.caso,
                               dato1: this.datoNuevo1,
                               dato2: this.datoNuevo2,

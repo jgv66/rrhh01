@@ -213,9 +213,9 @@ module.exports = {
         //
     },
     //
-    leermensajes: function(sql, body) {
+    leermensajes: function(sql, ficha) {
         //
-        var query = "exec ksp_leerMisMensajes '" + body.ficha + "' ;";
+        var query = "exec ksp_leerMisMensajes '" + ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
         sql.close();
@@ -228,7 +228,7 @@ module.exports = {
                 if (resultado.recordset[0]) {
                     return { resultado: 'ok', datos: resultado.recordset };
                 } else {
-                    return { resultado: 'nodata', datos: [] };
+                    return { resultado: 'error', datos: resultado.recordset };
                 }
             })
             .catch(err => {
@@ -263,131 +263,63 @@ module.exports = {
         //
     },
     //  
-    regiones: function(sql, body) {
+    regiones: function(sql) {
         //
-        var query = "exec ksp_getRegiones ;";
-        console.log(body.empresa, query, conector[body.empresa]);
+        var request = new sql.Request();
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
-            .then(pool => {
-                return pool.request()
-                    .query(query);
-            })
-            .then(resultado => {
-                if (resultado.recordset[0]) {
-                    return { resultado: 'ok', datos: resultado.recordset };
-                } else {
-                    return { resultado: 'error', datos: resultado.recordset };
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return { resultado: 'error', datos: err };
+        return request.query("select distinct CodRegion as cod, NomRegion as nom FROM softland.soregiones where CodPais='CL' order by cod ;")
+            .then(function(results) {
+                // console.log(results);
+                return results.recordset;
             });
-        //
     },
     //  
-    ciudades: function(sql, body) {
+    ciudades: function(sql, region) {
         //
-        var query = "exec ksp_getCiudades '" + body.region + "' ;";
-        console.log(body.empresa, query, conector[body.empresa]);
+        var request = new sql.Request();
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
-            .then(pool => {
-                return pool.request()
-                    .query(query);
-            })
-            .then(resultado => {
-                if (resultado.recordset[0]) {
-                    return { resultado: 'ok', datos: resultado.recordset };
-                } else {
-                    return { resultado: 'error', datos: resultado.recordset };
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return { resultado: 'error', datos: err };
+        return request.query("select CodCiudad as cod,NomCiudad as nom FROM softland.sociudades where CodPais='CL' and CodRegion='" + region + "' order by nom ;")
+            .then(function(results) {
+                // console.log(results);
+                return results.recordset;
             });
-        //
     },
     //  
-    comunas: function(sql, body) {
+    comunas: function(sql, region) {
         //
-        var query = "exec ksp_getComunas '" + body.region + "' ;";
-        console.log(body.empresa, query, conector[body.empresa]);
+        var request = new sql.Request();
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
-            .then(pool => {
-                return pool.request()
-                    .query(query);
-            })
-            .then(resultado => {
-                if (resultado.recordset[0]) {
-                    return { resultado: 'ok', datos: resultado.recordset };
-                } else {
-                    return { resultado: 'error', datos: resultado.recordset };
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return { resultado: 'error', datos: err };
+        return request.query("select CodComuna as cod, NomComuna as nom FROM softland.socomunas as co where co.CodRegion='" + region + "' and CodPais='CL' order by nom ; ")
+            .then(function(results) {
+                // console.log(results);
+                return results.recordset;
             });
-        //
     },
     //  
-    isapres: function(sql, body) {
+    isapres: function(sql) {
         //
-        var query = "exec ksp_getIsapres ;";
-        console.log(body.empresa, query, conector[body.empresa]);
+        var request = new sql.Request();
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
-            .then(pool => {
-                return pool.request()
-                    .query(query);
-            })
-            .then(resultado => {
-                if (resultado.recordset[0]) {
-                    return { resultado: 'ok', datos: resultado.recordset };
-                } else {
-                    return { resultado: 'error', datos: resultado.recordset };
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return { resultado: 'error', datos: err };
+        return request.query(`select nombre as nom FROM softland.sw_isapre 
+                              union
+                              select 'Fonasa' as nom
+                              order by nom ;`)
+            .then(function(results) {
+                // console.log(results);
+                return results.recordset;
             });
-        //
     },
     //  
-    afps: function(sql, body) {
+    afps: function(sql) {
         //
-        var query = "exec ksp_getAfps ;";
-        console.log(body.empresa, query, conector[body.empresa]);
+        var request = new sql.Request();
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
-            .then(pool => {
-                return pool.request()
-                    .query(query);
-            })
-            .then(resultado => {
-                if (resultado.recordset[0]) {
-                    return { resultado: 'ok', datos: resultado.recordset };
-                } else {
-                    return { resultado: 'error', datos: resultado.recordset };
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return { resultado: 'error', datos: err };
+        return request.query("select nombre as nom FROM softland.sw_afp order by nom ; ")
+            .then(function(results) {
+                // console.log(results);
+                return results.recordset;
             });
-        //
     },
-    //
     getBase64Cert: function(sql, body) {
         //
         var query = "exec ksp_get1base64Cert '" + body.key + "', '" + body.ficha + "' ;";
@@ -413,30 +345,21 @@ module.exports = {
             });
         //
     },
+
     //  
     licenciasMedicas: function(sql, body) {
         //
-        var query = "exec ksp_licencMedic '" + body.ficha + "' ;";
-        console.log(body.empresa, query, conector[body.empresa]);
+        var request = new sql.Request();
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
-            .then(pool => {
-                return pool.request()
-                    .query(query);
+        console.log('reg.licenciasMedicas');
+        return request.query("exec ksp_licencMedic '" + body.ficha + "' ;")
+            .then(function(results) {
+                console.log('resultado', results.recordset);
+                return { ok: true, datos: results.recordset };
             })
-            .then(resultado => {
-                if (resultado.recordset[0]) {
-                    return { resultado: 'ok', datos: resultado.recordset };
-                } else {
-                    return { resultado: 'nodata', datos: resultado.recordset }; // experimento.... 12/04/2020
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return { resultado: 'error', datos: err };
+            .catch(function(err) {
+                return { ok: false, datos: err };
             });
-        //
     },
     // 
 };

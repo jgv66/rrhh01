@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  // async signup() {
+  // async iforgot() {
   //   const modal = await this.modalCtrl.create({
   //     component: SignupPage
   //   });

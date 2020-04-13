@@ -26,13 +26,13 @@
 
                 <ion-item>
                     <ion-label position="fixed">Monto $</ion-label>
-                    <ion-input autocomplete="off" type="number" name="monto" [(ngModel)]="monto"></ion-input>
+                    <ion-input autocomplete="off" type="number" elastic name="monto" [(ngModel)]="monto"></ion-input>
                 </ion-item>
 
-                <ion-button style="font-size: 80%;margin-top: 15px;" expand="block" share="round" color="mango" (click)="enviar()">Enviar solicitud</ion-button>
+                <ion-button style="font-size: 80%;margin-top: 15px; " expand="block " share="round " color="mango " (click)="enviar() ">Enviar solicitud</ion-button>
 
             </ion-list>
-            <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
+            <ion-progress-bar *ngIf=" cargando " type="indeterminate "></ion-progress-bar>
 
         </ion-card-content>
 

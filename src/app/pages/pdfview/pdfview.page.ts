@@ -34,7 +34,7 @@ export class PdfviewPage implements OnInit {
   ngOnInit() {
     this.pdfEnServer = this.datos.url + '/static/pdf/' + this.pdf;
     this.desde = (this.desde === '' || this.desde === undefined) ? '' : this.desde;
-    console.log( 'PdfviewPage ->', this.pdfEnServer );
+    // console.log( 'PdfviewPage ->', this.pdfEnServer );
   }
 
   salir() {
@@ -46,7 +46,7 @@ export class PdfviewPage implements OnInit {
   }
 
   sendEmail() {
-   console.log( this.email, this.subject, this.copia );
+   // console.log( this.email, this.subject, this.copia );
    if ( this.email === '' ) {
     this.funciones.msgAlert( 'ATENCION', 'El correo es obligatorio para enviar copias de su liquidación en formato estandar PDF. Corrija y reintente.' );
    } else {
@@ -58,7 +58,9 @@ export class PdfviewPage implements OnInit {
                                             filename: this.pdf,
                                             nombres: this.datos.nombre,
                                             codigo: this.datos.ficha,
-                                            periodo: this.periodo } )
+                                            periodo: this.periodo,
+                                            ficha: this.datos.ficha,
+                                            empresa: this.datos.idempresa } )
     .subscribe( dev => { this.enviando = false;
                          this.revisaRespuesta( dev ); } );
    }

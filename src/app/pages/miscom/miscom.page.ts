@@ -26,18 +26,23 @@ export class MiscomPage implements OnInit {
     this.leerMisMensajes( null );
   }
 
+  doRefresh( event ) {
+    this.leerMisMensajes( event );
+  }
+
   leerMisMensajes( event? ) {
     // this.mensajes = [];
     this.cargando = true;
-    this.datos.servicioWEB( '/leerMensajes', { ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/leerMensajes', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( dev => this.revisaRespuesta( dev, event ) );
   }
   revisaRespuesta( dev, event ) {
     this.cargando = false;
     if ( dev.resultado === 'error' ) {
       this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
-    } else {
-      // asigna el dato obtenido
+    } else if ( dev.resultado === 'nodata' ) {
+      this.funciones.msgAlert( 'ATENCION', 'Su casilla de mensajeria está vacía.' );
+    } else if ( dev.resultado === 'ok' ) {      // asigna el dato obtenido
       this.mensajes = dev.datos;
       if ( event ) {
         event.target.complete();
@@ -72,21 +77,17 @@ export class MiscomPage implements OnInit {
 
   cierraMensaje( id ) {
     this.cargando = true;
-    this.datos.servicioWEB( '/cierraMensaje', { id } )
+    this.datos.servicioWEB( '/cierraMensaje', { id, empresa: this.datos.idempresa, ficha: this.datos.ficha } )
         .subscribe( dev => this.revisaRespuestaCierre( dev ) );
   }
   revisaRespuestaCierre( dev ) {
     this.cargando = false;
     if ( dev.resultado === 'error' ) {
-      this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
+      this.funciones.msgAlert( 'ATENCION', 'Mensaje no pudo darse por cerrado' );
     } else {
       this.funciones.msgAlert( 'ATENCION', 'El mensaje se dio por cerrado, ' +
                                'cuando vuelva a cargar esta lista o a refrescarla, verá el resultado' );
     }
-  }
-
-  doRefresh( event ) {
-    this.leerMisMensajes( event );
   }
 
 }

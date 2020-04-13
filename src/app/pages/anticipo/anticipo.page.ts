@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FuncionesService } from '../../services/funciones.service';
 import { DatosService } from '../../services/datos.service';
@@ -16,6 +17,7 @@ export class AnticipoPage implements OnInit {
 
   constructor( private funciones: FuncionesService,
                private datos: DatosService,
+               private alertCtrl: AlertController,
                private router: Router ) { }
 
   ngOnInit() {
@@ -25,7 +27,31 @@ export class AnticipoPage implements OnInit {
     }
   }
 
-  enviar() {
+  async enviar() {
+    const alert = await this.alertCtrl.create({
+header: 'Confirm!',
+message: 'Message <strong>text</strong>!!!',
+buttons: [
+{
+text: 'Cancel',
+role: 'cancel',
+cssClass: 'secondary',
+handler: (blah) => {
+  console.log('Confirm Cancel: blah');
+}
+}, {
+text: 'Okay',
+handler: () => {
+  console.log('Confirm Okay');
+}
+}
+]
+    });
+
+    await alert.present();
+  }
+
+  solicitaAnticipo() {
     //
     const xmes = (new Date()).getMonth();
     const xano = (new Date()).getFullYear();
@@ -40,7 +66,7 @@ export class AnticipoPage implements OnInit {
       this.funciones.msgAlert( 'ATENCION', 'El año no puede ser distinto del actual.', 'Corrija y reintente' );
     } else {
       this.cargando = true;
-      this.datos.servicioWEB( '/pedirAnticipo', { ficha: this.datos.ficha, monto: this.monto, fecha: hFecha } )
+      this.datos.servicioWEB( '/pedirAnticipo', { ficha: this.datos.ficha, monto: this.monto, fecha: hFecha, empresa: this.datos.idempresa } )
           .subscribe( dev => this.revisaRespuesta( dev ) );
     }
   }

@@ -104,6 +104,51 @@
 
             <ion-grid class="grid-productos">
 
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="card"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['mi_empresa_rut'] }}</b></p>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="sunny"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['mi_empresa_rs'] }}</b></p>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="bulb"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['mi_empresa_giro'] }}</b></p>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="pin"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['mi_empresa_dire'] }}</b></p>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="1">
+                        <ion-icon color="dark" name="call"></ion-icon>
+                    </ion-col>
+                    <ion-col class="ion-text-left">
+                        <p><b>{{ ficha['mi_empresa_fono'] }}</b></p>
+                    </ion-col>
+                </ion-row>
+
                 <ion-row *ngIf=" ficha['jefedirecto'] !== '' ">
                     <ion-col size="1">
                         <ion-icon color="dark" name="contacts"></ion-icon>
