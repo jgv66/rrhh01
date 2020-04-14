@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-menu-button autoHide="false"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Solicitud de anticipo</ion-title>
+        <ion-title>Anticipo</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -29,10 +29,11 @@
                     <ion-input autocomplete="off" type="number" elastic name="monto" [(ngModel)]="monto"></ion-input>
                 </ion-item>
 
-                <ion-button style="font-size: 80%;margin-top: 15px; " expand="block " share="round " color="mango " (click)="enviar() ">Enviar solicitud</ion-button>
+                <ion-button style="font-size: 80%;margin-top: 15px; " expand="block " share="round " color="mango " (click)="enviar() ">Validar solicitud</ion-button>
 
             </ion-list>
-            <ion-progress-bar *ngIf=" cargando " type="indeterminate "></ion-progress-bar>
+
+            <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
         </ion-card-content>
 

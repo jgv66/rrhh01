@@ -3,22 +3,22 @@ var conector = require('./conexion_mssql.js');
 
 module.exports = {
     // cada funncion se separa por comas  
-    creartablas: function(sql) {
+    creartablas: function(sqlpool) {
         //
-        var request = new sql.Request();
+        var request = new sqlpool[1].Request();
         request.query("exec ksp_Crear_Tablas ; ")
             .then(function() { console.log("creacion de tablas OK "); })
             .catch(function(er) { console.log('error al crear tablas -> ' + er); });
         //
     },
     //
-    changePass: function(empresa, sql, body) {
+    changePass: function(empresa, sqlpool, body) {
         //
         var query = "exec ksp_cambiarPass '" + body.rut + "', '" + body.claveActual + "','" + body.clave + "' ;";
         console.log(empresa, query, conector[empresa]);
         //
-        sql.close();
-        return sql.connect(conector[empresa])
+        // sql.close();
+        return sqlpool[empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -37,13 +37,13 @@ module.exports = {
             });
     },
     //
-    validarUser: function(empresa, sql, body) {
+    validarUser: function(empresa, sqlpool, body) {
         //
         var query = "exec ksp_validarUsuario '" + body.rut + "', '" + body.clave + "' ;";
         console.log(empresa, query, conector[empresa]);
         //
-        sql.close();
-        return sql.connect(conector[empresa])
+        // sql.close();
+        return sqlpool[empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -58,13 +58,13 @@ module.exports = {
             });
     },
     //
-    leerFicha: function(sql, body) {
+    leerFicha: function(sqlpool, body) {
         // 
         var query = "exec ksp_leerFicha '" + body.ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -82,13 +82,13 @@ module.exports = {
             });
     },
     //      
-    leerLiquidaciones: function(sql, body) {
+    leerLiquidaciones: function(sqlpool, body) {
         //
         var query = "exec ksp_leerMisLiquidaciones '" + body.ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -106,13 +106,13 @@ module.exports = {
             });
     },
     //  
-    getBase64: function(sql, body) {
+    getBase64: function(sqlpool, body) {
         //
         var query = "exec ksp_get1base64 " + body.idpdf.toString() + " ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -131,13 +131,13 @@ module.exports = {
 
     },
     //  
-    leerVacaciones: function(sql, body) {
+    leerVacaciones: function(sqlpool, body) {
         //
         var query = "exec ksp_vacaciones '" + body.ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -155,13 +155,13 @@ module.exports = {
             });
     },
     //  
-    leerDetalleVacaciones: function(sql, body) {
+    leerDetalleVacaciones: function(sqlpool, body) {
         //
         var query = "exec ksp_detalle_Vacaciones '" + body.ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -180,7 +180,7 @@ module.exports = {
         //
     },
     //
-    guardaSolicitud: function(empresa, sql, ficha, tipo, dato, cTo, cCc, cerrado) {
+    guardaSolicitud: function(empresa, sqlpool, ficha, tipo, dato, cTo, cCc, cerrado) {
         //
         console.log('guardaSolicitud()');
         if (cerrado === undefined) {
@@ -193,8 +193,8 @@ module.exports = {
         var query = "exec ksp_guardaSolicitud '" + ficha + "','" + tipo + "','" + dato + "','" + cTo + "','" + cCc + "', " + (cerrado ? '1' : '0') + "  ;";
         console.log(empresa, query, conector[empresa]);
         //
-        sql.close();
-        return sql.connect(conector[empresa])
+        // sql.close();
+        return sqlpool[empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -213,13 +213,13 @@ module.exports = {
         //
     },
     //
-    leermensajes: function(sql, body) {
+    leermensajes: function(sqlpool, body) {
         //
         var query = "exec ksp_leerMisMensajes '" + body.ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -238,13 +238,12 @@ module.exports = {
         //
     },
     //  
-    cerrarmensaje: function(sql, body) {
+    cerrarmensaje: function(sqlpool, body) {
         //
         var query = "exec ksp_cerrarMensaje " + body.id.toString() + " ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -263,13 +262,13 @@ module.exports = {
         //
     },
     //  
-    regiones: function(sql, body) {
+    regiones: function(sqlpool, body) {
         //
         var query = "exec ksp_getRegiones ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -288,13 +287,13 @@ module.exports = {
         //
     },
     //  
-    ciudades: function(sql, body) {
+    ciudades: function(sqlpool, body) {
         //
         var query = "exec ksp_getCiudades '" + body.region + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -313,13 +312,13 @@ module.exports = {
         //
     },
     //  
-    comunas: function(sql, body) {
+    comunas: function(sqlpool, body) {
         //
         var query = "exec ksp_getComunas '" + body.region + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -338,13 +337,13 @@ module.exports = {
         //
     },
     //  
-    isapres: function(sql, body) {
+    isapres: function(sqlpool, body) {
         //
         var query = "exec ksp_getIsapres ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -363,13 +362,13 @@ module.exports = {
         //
     },
     //  
-    afps: function(sql, body) {
+    afps: function(sqlpool, body) {
         //
         var query = "exec ksp_getAfps ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -388,14 +387,14 @@ module.exports = {
         //
     },
     //
-    getBase64Cert: function(sql, body) {
+    getBase64Cert: function(sqlpool, body) {
         //
         var query = "exec ksp_get1base64Cert '" + body.key + "', '" + body.ficha + "' ;";
         console.log('getBase64Cert >>>> ', body.key, body.ficha);
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);
@@ -414,13 +413,13 @@ module.exports = {
         //
     },
     //  
-    licenciasMedicas: function(sql, body) {
+    licenciasMedicas: function(sqlpool, body) {
         //
         var query = "exec ksp_licencMedic '" + body.ficha + "' ;";
         console.log(body.empresa, query, conector[body.empresa]);
         //
-        sql.close();
-        return sql.connect(conector[body.empresa])
+        // sql.close();
+        return sqlpool[body.empresa]
             .then(pool => {
                 return pool.request()
                     .query(query);

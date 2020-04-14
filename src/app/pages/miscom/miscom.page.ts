@@ -75,9 +75,9 @@ export class MiscomPage implements OnInit {
     await alert.present();
   }
 
-  cierraMensaje( id ) {
+  cierraMensaje( idMensaje ) {
     this.cargando = true;
-    this.datos.servicioWEB( '/cierraMensaje', { id, empresa: this.datos.idempresa, ficha: this.datos.ficha } )
+    this.datos.servicioWEB( '/cierraMensaje', { id: idMensaje, empresa: this.datos.idempresa, ficha: this.datos.ficha } )
         .subscribe( dev => this.revisaRespuestaCierre( dev ) );
   }
   revisaRespuestaCierre( dev ) {

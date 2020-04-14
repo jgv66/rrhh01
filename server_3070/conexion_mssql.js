@@ -9,7 +9,11 @@ module.exports = [
         port: 1433,
         database: 'BVARSOVIENNE',
         options: { encrypt: false }, // Use this if you're on Windows Azure
-        pool: { min: 5 }
+        pool: {
+            max: 10,
+            min: 0,
+            idleTimeoutMillis: 10000
+        }
     },
     {
         empresa: 2, // siguientes empresas...
@@ -19,7 +23,11 @@ module.exports = [
         port: 1433,
         database: 'REDHAT',
         options: { encrypt: false }, // Use this if you're on Windows Azure
-        pool: { min: 5 }
+        pool: {
+            max: 10,
+            min: 0,
+            idleTimeoutMillis: 10000
+        }
     },
     {
         empresa: 3, // siguientes empresas...
@@ -29,6 +37,10 @@ module.exports = [
         port: 1433,
         database: 'SUNSWETT',
         options: { encrypt: false }, // Use this if you're on Windows Azure
-        pool: { min: 5 }
+        pool: {
+            max: 10,
+            min: 0,
+            idleTimeoutMillis: 10000
+        }
     },
 ];

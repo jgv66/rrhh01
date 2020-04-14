@@ -50,7 +50,7 @@ export class VacacionesPage implements OnInit {
   detalleVacaciones( event? ) {
     this.datos.servicioWEB( '/leerDetalleVacaciones', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( (dev: any) => {
-            console.log(dev.datos);
+            // console.log(dev.datos);
             this.cargando = false;
             if ( dev.resultado === 'error' ) {
               // this.funciones.msgAlert( 'ATENCION', dev[0].datos );

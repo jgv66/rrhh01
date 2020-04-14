@@ -4,8 +4,8 @@
             <ion-menu-button autoHide="false"></ion-menu-button>
         </ion-buttons>
         <ion-title>Mi mensajería</ion-title>
-        <ion-buttons style="margin-right: 10px;" slot="end" (click)="doRefresh($event)">
-            <ion-icon name="refresh"></ion-icon>
+        <ion-buttons style="margin-right: 10px;" slot="end" (click)="leerMisMensajes()">
+            <ion-icon size="large" name="refresh"></ion-icon>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -19,8 +19,6 @@
     </ion-refresher>
 
     <ion-card *ngFor="let mensaje of mensajes">
-
-        <!-- <img src="assets/images/mensajeria.jpg" alt="x1"> -->
 
         <ion-card-header>
             <ion-card-subtitle *ngIf=" mensaje.cerrado  " color="danger">Cerrado el día {{ mensaje.fechacierre | date }}</ion-card-subtitle>

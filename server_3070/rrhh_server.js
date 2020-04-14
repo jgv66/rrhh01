@@ -1,7 +1,6 @@
 // console.log("hola mundo");
 var express = require('express');
 var app = express();
-var sql = require('mssql');
 var dbconex = require('./conexion_mssql.js');
 var archXemp = require('./archivos_por_empresa.js');
 //
@@ -46,14 +45,37 @@ var server = app.listen(3070, function() {
     console.log("Escuchando http-server en el puerto: %s", port);
 });
 
+// coneccion a la BD
+const sql = require('mssql');
+// pool de conexiones... forma 1 
+var pool = Array(4);
+var sqlpool = Array(4);
+//
+pool[1] = new sql.ConnectionPool(dbconex[1]);
+sqlpool[1] = pool[1].connect();
+pool[1].on('error', err => console.log('bd-1', err));
+
+pool[2] = new sql.ConnectionPool(dbconex[2]);
+sqlpool[2] = pool[2].connect();
+pool[2].on('error', err => console.log('bd-2', err));
+
+pool[3] = new sql.ConnectionPool(dbconex[3]);
+sqlpool[3] = pool[3].connect();
+pool[3].on('error', err => console.log('bd-3', err));
+
 // se leen todos los usuarios solo una vez para determinar 
 // en la entrada cual es la empresa que lo contiene
-let getUsuarios = () => {
+let getUsuarios = async function() {
+    //
+    await sqlpool[3];
+    await sqlpool[2];
+    await sqlpool[1];
     //
     return new Promise((resolve, reject) => {
         //
-        sql.close();
-        sql.connect(dbconex[1]) /* la primera empresa tiene a todos los usuarios */
+        console.log('buscando usuarios');
+        // sql.close();
+        return sqlpool[1] /* la primera empresa tiene a todos los usuarios */
             .then(function(pool) {
                 return pool.request()
                     .query("exec ksp_dameEmpresa '*todos*' ;");
@@ -66,8 +88,9 @@ let getUsuarios = () => {
             });
     });
 };
-// se asiganan a la matriz usuarios
+// se asignan todos los usuarios a la matriz usuarios multi-empresa
 getUsuarios().then(usrs => { usuarios = usrs; });
+
 // buscar empresa en la matriz de usuarios
 let getEmpresa = (rut) => {
     //
@@ -100,13 +123,9 @@ let registraActividad = (empresa, rut, actividad) => {
     var reg = `{ empresa: ${empresa}, rut: ${ rut }, fecha: ${ dia+'/'+mes+'/'+ano }, hora: ${ hora+':'+minu }, actividad: ${actividad} },\n`;
     //
     fs.appendFile(FACTURACION, reg,
-        (err) => {
-            if (err) {
-                console.log('error al grabar concurrencia -> ', err);
-            }
-        });
-    //    
+        (err) => {});
 };
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> web-services
 app.post('/validarUser',
     function(req, res, usuarios) {
@@ -114,7 +133,7 @@ app.post('/validarUser',
         getEmpresa(req.body.rut)
             .then(empresa => {
                     console.log("/validarUser ", req.body, empresa);
-                    reg.validarUser(empresa, sql, req.body)
+                    reg.validarUser(empresa, sqlpool, req.body)
                         .then(function(data) {
                             //
                             if (data.resultado === 'ok') {
@@ -141,7 +160,7 @@ app.post('/cambiarClave',
         getEmpresa(req.body.rut)
             .then(empresa => {
                     console.log("/cambiarClave ", req.body, empresa);
-                    reg.changePass(empresa, sql, req.body)
+                    reg.changePass(empresa, sqlpool, req.body)
                         .then(function(data) {
                             //
                             if (data.resultado === 'ok') {
@@ -166,7 +185,7 @@ app.post('/cambiarClave',
 app.post('/leerFicha',
     function(req, res) {
         console.log("/leerFicha ", req.body);
-        reg.leerFicha(sql, req.body)
+        reg.leerFicha(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -187,7 +206,7 @@ app.post('/leerFicha',
 app.post('/liquidaciones',
     function(req, res) {
         console.log("/liquidaciones ", req.body);
-        reg.leerLiquidaciones(sql, req.body)
+        reg.leerLiquidaciones(sqlpool, req.body)
             .then(function(data) {
                 //
                 // console.log(data);
@@ -208,7 +227,7 @@ app.post('/liquidaciones',
 app.post('/leerPDFLiquidacion',
     function(req, res) {
         console.log("/leerPDFLiquidacion ", req.body);
-        reg.getBase64(sql, req.body)
+        reg.getBase64(sqlpool, req.body)
             .then(function(data) {
                 //
                 var pdf = data.datos;
@@ -231,7 +250,7 @@ app.post('/leerPDFLiquidacion',
 app.post('/leerVacaciones',
     function(req, res) {
         console.log("/leerVacaciones ", req.body);
-        reg.leerVacaciones(sql, req.body)
+        reg.leerVacaciones(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -251,7 +270,7 @@ app.post('/leerVacaciones',
 app.post('/leerDetalleVacaciones',
     function(req, res) {
         console.log("/leerDetalleVacaciones ", req.body);
-        reg.leerDetalleVacaciones(sql, req.body)
+        reg.leerDetalleVacaciones(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -274,7 +293,7 @@ app.post('/leerCertAntiguedad',
         //
         console.log("/leerCertAntiguedad >>> ", req.body);
         //
-        reg.getBase64Cert(sql, req.body)
+        reg.getBase64Cert(sqlpool, req.body)
             .then(function(data) {
                 //
                 var filenamePDF = `cert_antig_${req.body.ficha.trim()}.pdf`;
@@ -412,7 +431,7 @@ app.post('/enviarPDF',
                 console.log("Email PDF a -> ", req.body.to);
                 console.log("Email PDF con copia -> ", req.body.cc);
                 //
-                reg.guardaSolicitud(req.body.empresa, sql, req.body.codigo, 'PDF', 'PDF: ' + req.body.periodo, req.body.to, req.body.cc, true)
+                reg.guardaSolicitud(req.body.empresa, sqlpool, req.body.codigo, 'PDF', 'PDF: ' + req.body.periodo, req.body.to, req.body.cc, true)
                     .then(x => null);
                 // concurrencia
                 registraActividad(req.body.empresa, req.body.ficha, 'enviarPDF(' + req.body.filename + ') -> ' + req.body.to);
@@ -426,7 +445,7 @@ app.post('/enviarPDF',
 app.post('/pedirAnticipo',
     function(req, res) {
         console.log('/pedirAnticipo', req.body);
-        reg.leerFicha(sql, req.body)
+        reg.leerFicha(sqlpool, req.body)
             .then(function(data) {
                 enviarCorreoAnticipo(req, res, data.datos);
             })
@@ -482,7 +501,7 @@ enviarCorreoAnticipo = function(req, res, data) {
             console.log("Email anticipo a -> ", cTo);
             console.log("Email anticipo con copia -> ", cCc);
             //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Anticipo', 'anticipo: ' + req.body.monto.toString() + ', para el dia ' + req.body.fecha, cTo, cCc)
+            reg.guardaSolicitud(req.body.empresa, sqlpool, data[0].codigo, 'Anticipo', 'anticipo: ' + req.body.monto.toString() + ', para el dia ' + req.body.fecha, cTo, cCc)
                 .then(x => null);
             // concurrencia
             registraActividad(req.body.empresa, req.body.ficha, 'pedirAnticipo( ' + 'Ant: ' + req.body.monto.toString() + ', dia ' + req.body.fecha + ' ) -> ' + cTo);
@@ -497,7 +516,7 @@ app.post('/leerMensajes',
     function(req, res) {
         //
         console.log("/leerMensajes ", req.body);
-        reg.leermensajes(sql, req.body)
+        reg.leermensajes(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok' || data.resultado === 'nodata') {
@@ -517,7 +536,7 @@ app.post('/leerMensajes',
 app.post('/cierraMensaje',
     function(req, res) {
         //
-        reg.cerrarmensaje(sql, req.body)
+        reg.cerrarmensaje(sqlpool, req.body)
             .then(function(data) {
                 //
                 // console.log(data);
@@ -539,7 +558,7 @@ app.post('/cierraMensaje',
 app.post('/leerRegiones',
     function(req, res) {
         //
-        reg.regiones(sql, req.body)
+        reg.regiones(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -559,7 +578,7 @@ app.post('/leerRegiones',
 app.post('/leerCiudades',
     function(req, res) {
         //
-        reg.ciudades(sql, req.body)
+        reg.ciudades(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -579,7 +598,7 @@ app.post('/leerCiudades',
 app.post('/leerComunas',
     function(req, res) {
         //
-        reg.comunas(sql, req.body)
+        reg.comunas(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -599,7 +618,7 @@ app.post('/leerComunas',
 app.post('/leerIsapres',
     function(req, res) {
         //
-        reg.isapres(sql)
+        reg.isapres(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -619,7 +638,7 @@ app.post('/leerIsapres',
 app.post('/leerAfps',
     function(req, res) {
         //
-        reg.afps(sql, req.body)
+        reg.afps(sqlpool, req.body)
             .then(function(data) {
                 //
                 if (data.resultado === 'ok') {
@@ -640,7 +659,7 @@ app.post('/leerAfps',
 app.post('/pedirVacaciones',
     function(req, res) {
         console.log('/pedirVacaciones', req.body);
-        reg.leerFicha(sql, req.body)
+        reg.leerFicha(sqlpool, req.body)
             .then(
                 function(data) {
                     enviarCorreoVacaciones(req, res, data.datos);
@@ -697,7 +716,7 @@ enviarCorreoVacaciones = function(req, response, data) {
             console.log("Email vacaciones a -> ", cTo);
             console.log("Email vacaciones con copia -> ", cCc);
             //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Vacaciones', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta, cTo, cCc)
+            reg.guardaSolicitud(req.body.empresa, sqlpool, data[0].codigo, 'Vacaciones', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta, cTo, cCc)
                 .then(x => null);
             // concurrencia
             registraActividad(req.body.empresa, req.body.ficha, 'pedirVacaciones( desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ' ) -> ' + cTo);
@@ -712,7 +731,7 @@ app.post('/leerLicencias',
     function(req, res) {
         //
         console.log('/leerLicencias');
-        reg.licenciasMedicas(sql, req.body)
+        reg.licenciasMedicas(sqlpool, req.body)
             .then(function(data) {
                 console.log("/leerLicencias ", data);
                 if (data.resultado === 'ok' || data.resultado === 'nodata') {
@@ -733,7 +752,7 @@ app.post('/leerLicencias',
 app.post('/informarLicencia',
     function(req, res) {
         // 
-        reg.leerFicha(sql, req.body)
+        reg.leerFicha(sqlpool, req.body)
             .then(
                 function(data) {
                     enviarCorreoLicencia(req, res, data.datos);
@@ -792,7 +811,7 @@ enviarCorreoLicencia = function(req, response, data) {
             console.log("Email licencia a -> ", cTo);
             console.log("Email licencia con copia -> ", cCc);
             //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Licencia médica', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ', comentarios: ' + req.body.comentario, cTo, cCc)
+            reg.guardaSolicitud(req.body.empresa, sqlpool, data[0].codigo, 'Licencia médica', 'desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ', comentarios: ' + req.body.comentario, cTo, cCc)
                 .then(x => null);
             // concurrencia
             registraActividad(req.body.empresa, req.body.ficha, 'informarLicencia( desde: ' + req.body.desde + ', hasta ' + req.body.hasta + ' ) -> ' + cTo);
@@ -807,7 +826,7 @@ app.post('/cambiarDatosFicha',
     function(req, res) {
         //
         console.log(req.body);
-        reg.leerFicha(sql, req.body)
+        reg.leerFicha(sqlpool, req.body)
             .then(function(data) {
                 enviarCorreoCambio(req, res, data.datos);
             })
@@ -870,7 +889,7 @@ enviarCorreoCambio = function(req, res, data) {
             console.log("Email cambio a -> ", cTo);
             console.log("Email cambio con copia -> ", cCc);
             //
-            reg.guardaSolicitud(req.body.empresa, sql, data[0].codigo, 'Cambio : ' + req.body.caso, 'Cambiar: ' + req.body.dato1 + (req.body.dato2 ? ', ' + req.body.dato2 : '') + (req.body.dato3 ? ', ' + req.body.dato3 : ''), cTo, cCc)
+            reg.guardaSolicitud(req.body.empresa, sqlpool, data[0].codigo, 'Cambio : ' + req.body.caso, 'Cambiar: ' + req.body.dato1 + (req.body.dato2 ? ', ' + req.body.dato2 : '') + (req.body.dato3 ? ', ' + req.body.dato3 : ''), cTo, cCc)
                 .then(x => null);
             // concurrencia
             registraActividad(req.body.empresa, req.body.ficha, 'enviarCorreoCambio( ' + req.body.caso + ' )');
@@ -879,6 +898,21 @@ enviarCorreoCambio = function(req, res, data) {
         }
     });
 };
+
+
+// sql.close();
+// sql.connect(dbconex[1]) 
+//     .then(function(pool) {
+//         return pool.request()
+//             .query("exec ksp_dameEmpresa '*todos*' ;");
+//     })
+//     .then(resultado => {
+//         resolve(resultado.recordset);
+//     })
+//     .catch(err => {
+//         reject([]);
+//     });
+
 
 // app.post('/newUser',
 //     function(req, res) {
@@ -896,7 +930,7 @@ enviarCorreoCambio = function(req, res, data) {
 // app.post('/validarUser_bueno',
 //     function(req, res, usuarios) {
 //         //
-//         sql.close();
+//         // sql.close();
 //         sql.connect(dbconex[1]) /* la primera empresa tiene a todos los usuarios */
 //         .then(function(pool) {
 //             return pool.request()

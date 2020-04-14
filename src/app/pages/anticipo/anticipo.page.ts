@@ -21,33 +21,31 @@ export class AnticipoPage implements OnInit {
                private router: Router ) { }
 
   ngOnInit() {
-    console.log(this.datos.idempresa);
+    // console.log(this.datos.idempresa);
     if ( this.datos.ficha === undefined ) {
       this.router.navigate(['/home']);
     }
   }
 
   async enviar() {
+    const xmonto = new Intl.NumberFormat( 'es', { localeMatcher: 'best fit'  } ).format(this.monto);
     const alert = await this.alertCtrl.create({
-header: 'Confirm!',
-message: 'Message <strong>text</strong>!!!',
-buttons: [
-{
-text: 'Cancel',
-role: 'cancel',
-cssClass: 'secondary',
-handler: (blah) => {
-  console.log('Confirm Cancel: blah');
-}
-}, {
-text: 'Okay',
-handler: () => {
-  console.log('Confirm Okay');
-}
-}
-]
+      header: 'CONFIRMAR',
+      message: 'Estoy solicitando un anticipo por <strong>$' + xmonto + '</strong>',
+      buttons: [
+        {
+          text: 'NO, corregir',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {}
+        }, {
+          text: 'Sí, correcto !',
+          handler: () => {
+            this.solicitaAnticipo();
+          }
+        }
+      ]
     });
-
     await alert.present();
   }
 

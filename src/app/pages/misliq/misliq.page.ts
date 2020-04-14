@@ -31,7 +31,7 @@ export class MisliqPage implements OnInit {
     this.cargando = true;
     this.datos.servicioWEB( '/liquidaciones', { ficha: this.datos.ficha, empresa: this.datos.idempresa } )
         .subscribe( (dev: any) => {
-            console.log(dev);
+            // console.log(dev);
             this.cargando = false;
             if ( dev.resultado === 'error' ) {
               this.funciones.msgAlert( 'ATENCION', 'No existen liquidaciones para rescatar y deslegar.' );

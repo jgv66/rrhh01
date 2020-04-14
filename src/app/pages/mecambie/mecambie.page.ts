@@ -58,12 +58,11 @@ export class MecambiePage implements OnInit {
       this.funciones.msgAlert( 'ATENCION', dev.datos[0].mensaje );
     } else {
       this.ficha = dev.datos[0];
-      // console.log(this.ficha);
     }
   }
 
   lasRegiones() {
-    this.datos.servicioWEB( '/leerRegiones', { empresa: this.datos.idempresa } )
+    this.datos.servicioWEB( '/leerRegiones', { empresa: this.datos.idempresa, ficha: this.datos.ficha } )
     .subscribe( dev => this.revisaRegiones( dev ) );
   }
   revisaRegiones( dev ) {
@@ -74,7 +73,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasCiudades() {
-    this.datos.servicioWEB( '/leerCiudades', { region: this.region.toString(), empresa: this.datos.idempresa } )
+    this.datos.servicioWEB( '/leerCiudades', { region: this.region.toString(), empresa: this.datos.idempresa, ficha: this.datos.ficha } )
     .subscribe( dev => this.revisaCiudades( dev ) );
   }
   revisaCiudades( dev ) {
@@ -85,7 +84,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasComunas() {
-    this.datos.servicioWEB( '/leerComunas', { region: this.region, empresa: this.datos.idempresa } )
+    this.datos.servicioWEB( '/leerComunas', { region: this.region, empresa: this.datos.idempresa, ficha: this.datos.ficha } )
     .subscribe( dev => this.revisaComunas( dev ) );
   }
   revisaComunas( dev ) {
@@ -96,7 +95,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasIsapres() {
-    this.datos.servicioWEB( '/leerIsapres', { empresa: this.datos.idempresa } )
+    this.datos.servicioWEB( '/leerIsapres', { empresa: this.datos.idempresa, ficha: this.datos.ficha } )
     .subscribe( dev => this.revisaIsapres( dev ) );
   }
   revisaIsapres( dev ) {
@@ -107,7 +106,7 @@ export class MecambiePage implements OnInit {
     }
   }
   lasAfps() {
-    this.datos.servicioWEB( '/leerAfps', { empresa: this.datos.idempresa }  )
+    this.datos.servicioWEB( '/leerAfps', { empresa: this.datos.idempresa, ficha: this.datos.ficha }  )
     .subscribe( dev => this.revisaAfps( dev ) );
   }
   revisaAfps( dev ) {
