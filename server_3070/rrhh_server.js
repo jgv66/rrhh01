@@ -899,6 +899,47 @@ enviarCorreoCambio = function(req, res, data) {
     });
 };
 
+app.post('/guardaGeoPos',
+    function(req, res) {
+        console.log("/guardaGeoPos ", req.body);
+        reg.geoPos(sqlpool, req.body)
+            .then(function(data) {
+                //
+                if (data.resultado === 'ok') {
+                    // concurrencia
+                    registraActividad(req.body.empresa, req.body.ficha, 'guardaGeoPos()');
+                    //
+                    res.json({ resultado: 'ok', datos: data.datos });
+                } else {
+                    res.json({ resultado: 'error', datos: data.datos });
+                }
+            })
+            .catch(function(err) {
+                console.log("/guardaGeoPos ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/leerGeoPos',
+    function(req, res) {
+        console.log("/leerGeoPos ", req.body);
+        reg.leerGeoPos(sqlpool, req.body)
+            .then(function(data) {
+                //
+                if (data.resultado === 'ok') {
+                    // concurrencia
+                    registraActividad(req.body.empresa, req.body.ficha, 'leerGeoPos()');
+                    //
+                    res.json({ resultado: 'ok', datos: data.datos });
+                } else {
+                    res.json({ resultado: 'error', datos: data.datos });
+                }
+            })
+            .catch(function(err) {
+                console.log("/leerGeoPos ", err);
+                res.json({ resultado: 'error', datos: error });
+            });
+    });
+
 
 // sql.close();
 // sql.connect(dbconex[1]) 

@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar color="mango">
+        <ion-buttons slot="start">
+            <ion-button (click)="salir()">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Mi ubicación - {{ item.ingreso | date:"dd.MMMyyyy" }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div id='map'></div>
+
+</ion-content>

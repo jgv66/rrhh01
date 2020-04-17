@@ -6,7 +6,6 @@
         <ion-title>Registro de Asistencia</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
 <ion-content class="animated fadeIn">
 
@@ -23,12 +22,12 @@
             <ion-grid>
                 <ion-row>
                     <ion-col size="6">
-                        <ion-button expand="block" (click)="ingreso()" color="success">Ingresar
+                        <ion-button expand="block" (click)="ubicame( 'I' )" color="success">Ingresar
                             <ion-icon name="finger-print" slot="end"></ion-icon>
                         </ion-button>
                     </ion-col>
                     <ion-col size="6">
-                        <ion-button expand="block" (click)="salida()" color="danger">Retirarse
+                        <ion-button expand="block" (click)="ubicame( 'S' )" color="danger">Retirarse
                             <ion-icon name="log-out" slot="end"></ion-icon>
                         </ion-button>
                     </ion-col>
@@ -39,7 +38,10 @@
 
     </ion-card>
 
-    <ion-card class="ion-no-padding">
+    <ion-progress-bar *ngIf=" enviando " type="indeterminate"></ion-progress-bar>
+
+    <!--     
+    <ion-card class="ion-no-padding" >
 
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
             <ion-card-title class="ion-text-center" style="font-size:145%;">Ubicación actual</ion-card-title>
@@ -56,37 +58,61 @@
 
         </ion-card-content>
 
-    </ion-card>
+    </ion-card> 
+-->
 
     <ion-card class="ion-no-padding">
 
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
-            <ion-card-title class="ion-text-center" style="font-size:145%;">Registro semanal</ion-card-title>
+            <ion-card-title class="ion-text-center" style="font-size:145%;">Registro últimos 30 días</ion-card-title>
         </ion-card-header>
 
         <ion-card-content style="padding: 5px; text-align: justify;">
 
-            <ion-list *ngIf=" asistencia.length>0 " style="font-size: 80%;">
+            <ion-grid class="grid-productos" *ngIf=" asistencia.length>0 " style="font-size: 80%;">
+
+                <ion-row *ngFor="let item of asistencia" style="font-size: 80%;height: 40px;" (click)="verUbicacion( item )">
+                    <ion-col size="3" class="ion-text-left" style="display: flex; justify-content: center; align-items: center;">
+                        <p><b>{{ item.fechain }}</b></p>
+                    </ion-col>
+                    <ion-col size="3.5" class="ion-text-center" color="success" style="display: flex; justify-content: center; align-items: center;color: #10dc60;">
+                        <p><b>{{ item.horain }}</b></p>
+                    </ion-col>
+                    <ion-col size="3.5" class="ion-text-center" color="danger" style="display: flex; justify-content: center; align-items: center; color:#f04141;">
+                        <p><b>{{ item.horaout }}</b></p>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-button fill="clear" size="small" style="display: flex; justify-content: center; align-items: center; color: #222428;">
+                            <ion-icon slot="icon-only" name="pin"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+
+            </ion-grid>
+
+            <!-- 
+            <ion-list *ngIf=" asistencia.length>0 " style="font-size: 80%;"  lines="none">
                 <ion-item *ngFor="let item of asistencia" style="font-size: 80%;">
                     <ion-label class="ion-text-wrap">
                         <ion-text>
-                            <p>Ingreso</p>
-                            <ion-chip>
-                                <ion-label>{{ item.fechain | date:"dd.MMMyyyy" }} a las {{ item.horain }}</ion-label>
+                            <ion-chip color="success" mode="ios" outline="true">
+                                <ion-icon name="finger-print"></ion-icon>
+                                <ion-label>{{ item.ingreso | date:"dd.MMMyyyy HH:mm" }}</ion-label>
                             </ion-chip>
-                        </ion-text>
-                        <ion-text color="primary">
-                            <p>Salida</p>
-                            <ion-chip color="primary">
-                                <ion-label>{{ item.fechaout | date:"dd.MMMyyyy" }} a las {{ item.horaout }}</ion-label>
+                            <ion-chip color="danger" mode="ios" outline="">
+                                <ion-icon name="log-out"></ion-icon>
+                                <ion-label>{{ item.salida | date:"HH:mm" }}</ion-label>
                             </ion-chip>
+                            <ion-icon slot="end" name="pin"></ion-icon>
                         </ion-text>
                     </ion-label>
                 </ion-item>
             </ion-list>
+             -->
 
         </ion-card-content>
 
     </ion-card>
+    <ion-progress-bar *ngIf=" cargando " type="indeterminate"></ion-progress-bar>
 
 </ion-content>

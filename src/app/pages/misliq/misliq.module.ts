@@ -9,7 +9,6 @@ import { MisliqPage } from './misliq.page';
 import { PdfviewPage } from '../pdfview/pdfview.page';
 import { PdfviewPageModule } from '../pdfview/pdfview.module';
 
-
 const routes: Routes = [
   {
     path: '',

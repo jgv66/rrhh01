@@ -437,7 +437,57 @@ module.exports = {
             });
         //
     },
+    //  
+    geoPos: function(sqlpool, body) {
+        //
+        var query = "exec ksp_guardaGeoPos '" + body.ficha + "'," + body.empresa.toString() + ",'" + body.io + "'," + body.lat.toString() + "," + body.lng.toString() + " ;";
+        console.log(body.empresa, query, conector[body.empresa]);
+        //
+        // sql.close();
+        return sqlpool[body.empresa]
+            .then(pool => {
+                return pool.request()
+                    .query(query);
+            })
+            .then(resultado => {
+                if (resultado.recordset[0]) {
+                    return { resultado: 'ok', datos: resultado.recordset };
+                } else {
+                    return { resultado: 'nodata', datos: resultado.recordset }; // experimento.... 12/04/2020
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                return { resultado: 'error', datos: err };
+            });
+        //
+    },
     // 
+    leerGeoPos: function(sqlpool, body) {
+        //
+        var query = "exec ksp_leerMisAsistencias '" + body.ficha + "' ;";
+        console.log(body.empresa, query, conector[body.empresa]);
+        //
+        // sql.close();
+        return sqlpool[body.empresa]
+            .then(pool => {
+                return pool.request()
+                    .query(query);
+            })
+            .then(resultado => {
+                if (resultado.recordset[0]) {
+                    return { resultado: 'ok', datos: resultado.recordset };
+                } else {
+                    return { resultado: 'nodata', datos: resultado.recordset }; // experimento.... 12/04/2020
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                return { resultado: 'error', datos: err };
+            });
+        //
+    },
+    //     
 };
 
 

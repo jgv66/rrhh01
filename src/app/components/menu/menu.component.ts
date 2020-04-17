@@ -41,7 +41,6 @@ export class MenuComponent implements OnInit {
         { title: 'De clave a mi Mandala', url: '/cambioclave',        icon: 'key'         },
       ]
     },
-    /*
     {
       title: 'Registro de Asistencia',
       children: [
@@ -49,7 +48,6 @@ export class MenuComponent implements OnInit {
         { title: 'Sígueme',               url: '/followme',   icon: 'walk' },
       ]
     },
-    */
     {
       title: 'Mensajería',
       children: [
