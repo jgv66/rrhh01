@@ -47,10 +47,12 @@ ion-toast {
 }
 
 img {
-    // width: 248px;
-    // height: 248px;
     box-shadow: 0px 2px 8px rgba(2, 8, 20, 0.1), 0px 8px 16px rgba(2, 8, 20, 0.08);
     border-radius: 6px;
+}
+
+img.kntk {
+    box-shadow: none;
 }
 
 .rojo span,

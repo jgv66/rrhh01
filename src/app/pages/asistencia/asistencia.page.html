@@ -7,6 +7,8 @@
     </ion-toolbar>
 </ion-header>
 
+<ion-progress-bar *ngIf=" iniciando " type="indeterminate"></ion-progress-bar>
+
 <ion-content class="animated fadeIn">
 
     <ion-card class="ion-no-padding">
@@ -39,28 +41,18 @@
     </ion-card>
 
     <ion-progress-bar *ngIf=" enviando " type="indeterminate"></ion-progress-bar>
-
-    <!--     
-    <ion-card class="ion-no-padding" >
-
+    <!-- 
+    <ion-card class="ion-no-padding">
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">
-            <ion-card-title class="ion-text-center" style="font-size:145%;">Ubicación actual</ion-card-title>
+            <ion-card-title class="ion-text-center" style="font-size:145%;">Background Geolocation
+            </ion-card-title>
         </ion-card-header>
-
-        <ion-card-content style="padding: 5px; text-align: justify;">
-
-            <div class="map-wrapper">
-                <div id="map_center">
-                    <img src="/assets/icon/center_marker.png" />
-                </div>
-                <div #map id="map"></div>
-            </div>
-
+        <ion-card-content>
+            <ion-button (click)="startBackgroundGeolocation()">Start Background Geolocation</ion-button>
+            <ion-button (click)="stopBackgroundGeolocation()">Stop Background Geolocation</ion-button>
         </ion-card-content>
-
-    </ion-card> 
--->
-
+    </ion-card>
+ -->
     <ion-card class="ion-no-padding">
 
         <ion-card-header style="padding-top: 10px; padding-bottom: 5px;">

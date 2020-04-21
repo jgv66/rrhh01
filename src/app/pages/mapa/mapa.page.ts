@@ -15,6 +15,7 @@ export class MapaPage implements OnInit, AfterViewInit {
   @Input() item;
   lat: number;
   lng: number;
+  cargando = true;
 
   constructor(private modalCtrl: ModalController,
               private router: Router,
@@ -26,8 +27,8 @@ export class MapaPage implements OnInit, AfterViewInit {
     }
     //
     console.log( this.item );
-    this.lat = this.item.in_lat;
-    this.lng = this.item.in_lng;
+    this.lat = parseFloat(this.item.in_lat);
+    this.lng = parseFloat(this.item.in_lng);
     console.log(this.lat, this.lng);
     //
   }
@@ -63,7 +64,7 @@ export class MapaPage implements OnInit, AfterViewInit {
           break;
         }
       }
-
+      this.cargando = false;
       map.addLayer(
         {
         'id': '3d-buildings',

@@ -14,8 +14,10 @@ registerLocaleData(localeEs);
 
 import { AppRoutingModule } from './app-routing.module';
 
+// import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 import { ComponentsModule } from './components/components.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -43,7 +45,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     StatusBar,
     SplashScreen,
     Geolocation,
-    NativeGeocoder,
+    BackgroundGeolocation,
+    LocalNotifications,
+    // NativeGeocoder,
     DatosService,
     { provide: LOCALE_ID, useValue: 'es' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
